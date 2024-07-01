@@ -32,7 +32,7 @@ ids6866 = data_6866['id']
 ids6811 = data_6811['id']
 
 #function that takes id and returns a RVData object 
-def IDtoRV(id_num):
+def IDtoRVWithOld(id_num):
     rvdatamatched6866 = data_6866[id_num == ids6866] #where function to get the rows where id matches input 
     rvdatamatched6811 = data_6811[id_num == ids6811] # repeat for both clusters
     if len(rvdatamatched6866) == 0 and len(rvdatamatched6811) == 0: #if not in either cluster return nothing
@@ -67,8 +67,8 @@ def IDtoRV(id_num):
     data = tj.RVData(t = t_all, rv = all_data["rv"]*(u.kilometer/u.second), rv_err = all_data["rve"]*(u.kilometer/u.second)) #create RVData obj
     return data, len(all_data['rv']) #return the RVData obj and how many samples for the star
 
-def RunTheJoker(id_num, num_priors):
-    data, num_samples = IDtoRV(id_num) #using other function to get joker object and number of samples 
+def RunTheJokerWtihOld(id_num, num_priors):
+    data, num_samples = IDtoRVWithOld(id_num) #using other function to get joker object and number of samples 
 
     if os.path.exists(f'{DATA_PATH}/{id_num}') == False:
         os.makedirs(f'{DATA_PATH}/{id_num}')
