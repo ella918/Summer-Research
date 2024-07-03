@@ -53,7 +53,7 @@ def RunTheJoker(id_num, num_priors, mpi):
 
     fig1, ax1 = plt.subplots()
     _ = data.plot() #plotting rv vs time
-    fig1.savefig(f"/{id_num}/RVvsTime_{id_num}") #saving figure to plots folder
+    fig1.savefig(f"{id_num}/RVvsTime_{id_num}") #saving figure to plots folder
     
     prior = tj.JokerPrior.default( #initializing the default prior
         P_min = 2 * u.day,
@@ -67,7 +67,7 @@ def RunTheJoker(id_num, num_priors, mpi):
         print("Used existing priors")
     else:
         prior_samples = prior.sample(size = num_priors, rng = rnd) #generating prior samples
-        prior_samples.write(f"/{id_num}/prior_samples_{id_num}.hdf5", overwrite = True) #write out prior samples to research folder 
+        prior_samples.write(f"{id_num}/prior_samples_{id_num}.hdf5", overwrite = True) #write out prior samples to research folder 
         print("New priors created")
 
     if mpi is True: #multiprocessing 
@@ -85,11 +85,11 @@ def RunTheJoker(id_num, num_priors, mpi):
         joker = tj.TheJoker(prior, rng=rnd) #creating instance of The Joker
         joker_samples = joker.rejection_sample(data, prior_samples, max_posterior_samples=256) #creating rejection samples 
    
-    joker_samples.write(f"/{id_num}/rejection_samples_{id_num}.hdf5", overwrite = True) #writing out posterior samples (not MCMC)
+    joker_samples.write(f"{id_num}/rejection_samples_{id_num}.hdf5", overwrite = True) #writing out posterior samples (not MCMC)
 
     fig2, ax2 = plt.subplots()
     _ = tj.plot_rv_curves(joker_samples, data=data) #plotting RV curves from rejection sampler
-    fig2.savefig(f"/{id_num}/RVCurves_{id_num}") #saving figure to plots folder in research folder
+    fig2.savefig(f"{id_num}/RVCurves_{id_num}") #saving figure to plots folder in research folder
     print("RV curves plotted")
 
     #plotting period against eccentricity
@@ -101,7 +101,7 @@ def RunTheJoker(id_num, num_priors, mpi):
     ax3.set_ylim(0, 1)
     ax3.set_xlabel("$P$ [day]")
     ax3.set_ylabel("$e$")
-    fig3.savefig(f"/{id_num}/PeriodvsEccent_{id_num}") #saving figure to plots folder in research folder 
+    fig3.savefig(f"{id_num}/PeriodvsEccent_{id_num}") #saving figure to plots folder in research folder 
     print("Period vs Eccentricity plotted")
 
     if len(joker_samples) == 1: 
@@ -111,11 +111,11 @@ def RunTheJoker(id_num, num_priors, mpi):
             mcmc_init = joker.setup_mcmc(data, joker_samples)
             trace = pm.sample(tune=500, draws=500, start=mcmc_init, cores=1, chains=2)
         mcmc_samples = tj.JokerSamples.from_inference_data(prior, trace, data) #convert trace into jokersamples
-        mcmc_samples.write(f'/{id_num}/rejection_samples_MCMC_{id_num}.hdf5', overwrite = True) #write out MCMC posterior samples 
+        mcmc_samples.write(f'{id_num}/rejection_samples_MCMC_{id_num}.hdf5', overwrite = True) #write out MCMC posterior samples 
         
         fig4, ax4 = plt.subplots()
         _ = tj.plot_rv_curves(mcmc_samples, data=data) #plotting RV curves from MCMC rejection sampler
-        fig4.savefig(f"/{id_num}/RVCurves_MCMC_{id_num}") #saving figure to plots folder in research folder
+        fig4.savefig(f"{id_num}/RVCurves_MCMC_{id_num}") #saving figure to plots folder in research folder
         print("RV curves from MCMC plotted")
 
         #plotting period vs eccentricity
@@ -127,7 +127,7 @@ def RunTheJoker(id_num, num_priors, mpi):
         ax5.set_ylim(0, 1)
         ax5.set_xlabel("$P$ [day]")
         ax5.set_ylabel("$e$")
-        fig5.savefig(f"/{id_num}/PeriodvsEccent_MCMC_{id_num}") #saving figure to plots folder in research folder
+        fig5.savefig(f"{id_num}/PeriodvsEccent_MCMC_{id_num}") #saving figure to plots folder in research folder
         print("Period vs Eccentricity from MCMC plotted")
     return
 
