@@ -19,17 +19,16 @@ import os
 import schwimmbad
 
 
-DATA_PATH = os.getenv("DATA_PATH", "/users/EllaMathews/Research/") #environment variable 
-OUTPUT_PATH = os.getenv("OUTPUT_PATH", "/users/EllaMathews/Summer-Research") 
+DATA_PATH = os.getenv("DATA_PATH", "/users/EllaMathews/Summer-Research/") #environment variable 
 
 #random generator to ensure reproducibility? - from the joker tutorial
 rnd = np.random.default_rng(seed=42)
 
 #importing new data
-new_6866 = QTable.read(f'{DATA_PATH}/rcat_ngc6866_v0.fits')
-new_6811 = QTable.read(f'{DATA_PATH}/rcat_ngc6811_v0.fits')
+new_6866 = QTable.read('/users/EllaMathews/Research/rcat_ngc6866_v0.fits')
+new_6811 = QTable.read('/users/EllaMathews/Research/rcat_ngc6811_v0.fits')
 
-def RunTheJoker(id_num, num_priors, mpi = False):
+def RunTheJoker(id_num, num_priors, mpi):
     new_ids_6811 = new_6811['GAIAEDR3_ID']
     new_ids_6866 = new_6866['GAIAEDR3_ID']
 
@@ -49,13 +48,13 @@ def RunTheJoker(id_num, num_priors, mpi = False):
         print("Not enough RV data")
         return
 
-    if os.path.exists(f'{OUTPUT_PATH}/{id_num}') == False:
-        os.makedirs(f'{OUTPUT_PATH}/{id_num}')
-        os.makedirs(f'{OUTPUT_PATH}/{id_num}/Plots')
+    if os.path.exists(f'/{id_num}') == False:
+        os.makedirs(f'/{id_num}')
+        os.makedirs(f'/{id_num}/Plots')
 
     fig1, ax1 = plt.subplots()
     _ = data.plot() #plotting rv vs time
-    fig1.savefig(f"{OUTPUT_PATH}/{id_num}/Plots/RVvsTime_{id_num}") #saving figure to plots folder in research folder
+    fig1.savefig(f"/{id_num}/Plots/RVvsTime_{id_num}") #saving figure to plots folder
     
     prior = tj.JokerPrior.default( #initializing the default prior
         P_min = 2 * u.day,
@@ -64,13 +63,15 @@ def RunTheJoker(id_num, num_priors, mpi = False):
         sigma_v = 100 * u.km / u.s,
     )
 
-    if os.path.exists(f"{OUTPUT_PATH}/{id_num}/prior_samples_{id_num}.hdf5"):
-        prior_samples = tj.JokerSamples.read(f"{OUTPUT_PATH}/{id_num}/prior_samples_{id_num}.hdf5")
+    if os.path.exists(f"{DATA_PATH}/{id_num}/prior_samples_{id_num}.hdf5"):
+        prior_samples = tj.JokerSamples.read(f"{DATA_PATH}/{id_num}/prior_samples_{id_num}.hdf5")
+        print("Used existing priors")
     else:
         prior_samples = prior.sample(size = num_priors, rng = rnd) #generating prior samples
-        prior_samples.write(f"{OUTPUT_PATH}/{id_num}/prior_samples_{id_num}.hdf5", overwrite = True) #write out prior samples to research folder 
+        prior_samples.write(f"/{id_num}/prior_samples_{id_num}.hdf5", overwrite = True) #write out prior samples to research folder 
+        print("New priors created")
 
-    if mpi is True:
+    if mpi is True: #multiprocessing 
         with schwimmbad.MultiPool() as pool:
             print("Multiprocessing")
             try:
@@ -85,11 +86,12 @@ def RunTheJoker(id_num, num_priors, mpi = False):
         joker = tj.TheJoker(prior, rng=rnd) #creating instance of The Joker
         joker_samples = joker.rejection_sample(data, prior_samples, max_posterior_samples=256) #creating rejection samples 
    
-    joker_samples.write(f"{OUTPUT_PATH}/{id_num}/rejection_samples_{id_num}.hdf5", overwrite = True) #writing out posterior samples (not MCMC)
+    joker_samples.write(f"/{id_num}/rejection_samples_{id_num}.hdf5", overwrite = True) #writing out posterior samples (not MCMC)
 
     fig2, ax2 = plt.subplots()
     _ = tj.plot_rv_curves(joker_samples, data=data) #plotting RV curves from rejection sampler
-    fig2.savefig(f"{OUTPUT_PATH}/{id_num}/Plots/RVCurves_{id_num}") #saving figure to plots folder in research folder
+    fig2.savefig(f"/{id_num}/Plots/RVCurves_{id_num}") #saving figure to plots folder in research folder
+    print("RV curves plotted")
 
     #plotting period against eccentricity
     fig3, ax3 = plt.subplots()
@@ -100,20 +102,23 @@ def RunTheJoker(id_num, num_priors, mpi = False):
     ax3.set_ylim(0, 1)
     ax3.set_xlabel("$P$ [day]")
     ax3.set_ylabel("$e$")
-    fig3.savefig(f"{OUTPUT_PATH}/{id_num}/Plots/PeriodvsEccent_{id_num}") #saving figure to plots folder in research folder 
+    fig3.savefig(f"/{id_num}/Plots/PeriodvsEccent_{id_num}") #saving figure to plots folder in research folder 
+    print("Period vs Eccentricity plotted")
 
-    if len(joker_samples) == 1: #if only one sample need MCMC
+    if len(joker_samples) == 1: 
+        print("1 sample, needs MCMC")#if only one sample need MCMC
         #MCMC with NUTS sampler 
         with prior.model:
             mcmc_init = joker.setup_mcmc(data, joker_samples)
             trace = pm.sample(tune=500, draws=500, start=mcmc_init, cores=1, chains=2)
         mcmc_samples = tj.JokerSamples.from_inference_data(prior, trace, data) #convert trace into jokersamples
-        mcmc_samples.write(f'{OUTPUT_PATH}/{id_num}/rejection_samples_MCMC_{id_num}.hdf5', overwrite = True) #write out MCMC posterior samples 
+        mcmc_samples.write(f'/{id_num}/rejection_samples_MCMC_{id_num}.hdf5', overwrite = True) #write out MCMC posterior samples 
         
         fig4, ax4 = plt.subplots()
         _ = tj.plot_rv_curves(mcmc_samples, data=data) #plotting RV curves from MCMC rejection sampler
-        fig4.savefig(f"{OUTPUT_PATH}/{id_num}/Plots/RVCurves_MCMC_{id_num}") #saving figure to plots folder in research folder
-        
+        fig4.savefig(f"/{id_num}/Plots/RVCurves_MCMC_{id_num}") #saving figure to plots folder in research folder
+        print("RV curves from MCMC plotted")
+
         #plotting period vs eccentricity
         fig5, ax5 = plt.subplots()
         with quantity_support():
@@ -123,15 +128,16 @@ def RunTheJoker(id_num, num_priors, mpi = False):
         ax5.set_ylim(0, 1)
         ax5.set_xlabel("$P$ [day]")
         ax5.set_ylabel("$e$")
-        fig5.savefig(f"{OUTPUT_PATH}/{id_num}/Plots/PeriodvsEccent_MCMC_{id_num}") #saving figure to plots folder in research folder
-        
+        fig5.savefig(f"{DATA_PATH}/{id_num}/Plots/PeriodvsEccent_MCMC_{id_num}") #saving figure to plots folder in research folder
+        print("Period vs Eccentricity from MCMC plotted")
     return
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('id', help = 'star id', type = int)
+    parser.add_argument('mpi', help='True for multiprocessing', type = bool, default = False)
     parser.add_argument('--prior', help = 'num of prior samp default 1000', type = int, default = 1000)
     args = parser.parse_args()
     
-    RunTheJoker(args.id, args.prior)
+    RunTheJoker(args.id, args.mpi, args.prior)
