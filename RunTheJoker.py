@@ -16,6 +16,8 @@ import arviz as az
 import argparse
 import os
 
+import schwimmbad
+
 
 DATA_PATH = os.getenv("DATA_PATH", "/users/EllaMathews/Research/") #environment variable 
 
@@ -26,7 +28,7 @@ rnd = np.random.default_rng(seed=42)
 new_6866 = QTable.read(f'{DATA_PATH}/rcat_ngc6866_v0.fits')
 new_6811 = QTable.read(f'{DATA_PATH}/rcat_ngc6811_v0.fits')
 
-def RunTheJoker(id_num, num_priors):
+def RunTheJoker(id_num, num_priors, mpi=False):
     new_ids_6811 = new_6811['GAIAEDR3_ID']
     new_ids_6866 = new_6866['GAIAEDR3_ID']
 
@@ -67,8 +69,21 @@ def RunTheJoker(id_num, num_priors):
         prior_samples = prior.sample(size = num_priors, rng = rnd) #generating prior samples
       #  prior_samples.write(f"/users/EllaMathews/Research/{id_num}/prior_samples_{id_num}.hdf5", overwrite = True) #write out prior samples to research folder 
 
-    joker = tj.TheJoker(prior, rng=rnd) #creating instance of The Joker
-    joker_samples = joker.rejection_sample(data, prior_samples, max_posterior_samples=256) #creating rejection samples 
+    if mpi is True:
+        with schwimmbad.Multipool() as pool:
+            print("Multiprocessing")
+            try:
+                joker = tj.TheJoker(prior, rng=rnd, pool=pool)
+                joker_samples = joker.rejection_sample(data, prior_samples, max_posterior_samples=256)
+                print("done sampling")
+            except:
+                print("failed")
+                return
+    else:
+        pool = None
+        joker = tj.TheJoker(prior, rng=rnd) #creating instance of The Joker
+        joker_samples = joker.rejection_sample(data, prior_samples, max_posterior_samples=256) #creating rejection samples 
+   
    # joker_samples.write(f"/users/EllaMathews/Research/{id_num}/rejection_samples_{id_num}.hdf5", overwrite = True) #writing out posterior samples (not MCMC)
 
     fig2, ax2 = plt.subplots()
