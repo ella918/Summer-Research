@@ -48,9 +48,9 @@ def RunTheJoker(id_num, num_priors, mpi):
         print("Not enough RV data")
         return
 
-    if os.path.exists(f'/{id_num}') == False:
-        os.makedirs(f'/{id_num}')
-        os.makedirs(f'/{id_num}/Plots')
+    if os.path.exists(f'{id_num}') == False:
+        os.makedirs(f'{id_num}')
+        os.makedirs(f'{id_num}/Plots')
 
     fig1, ax1 = plt.subplots()
     _ = data.plot() #plotting rv vs time
