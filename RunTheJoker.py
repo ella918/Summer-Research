@@ -70,65 +70,65 @@ def RunTheJoker(id_num, num_priors, mpi):
         prior_samples.write(f"{id_num}/prior_samples_{id_num}.hdf5", overwrite = True) #write out prior samples to research folder 
         print("New priors created")
 
-    if mpi is True: #multiprocessing 
-        with schwimmbad.MultiPool() as pool:
-            print("Multiprocessing")
-            try:
-                joker = tj.TheJoker(prior, rng=rnd, pool=pool)
-                joker_samples = joker.rejection_sample(data, prior_samples, max_posterior_samples=256)
-                print("done sampling")
-            except:
-                print("failed")
-                return
-    else:
-        pool = None
-        joker = tj.TheJoker(prior, rng=rnd) #creating instance of The Joker
-        joker_samples = joker.rejection_sample(data, prior_samples, max_posterior_samples=256) #creating rejection samples 
+    # if mpi is True: #multiprocessing 
+    #     with schwimmbad.MultiPool() as pool:
+    #         print("Multiprocessing")
+    #         try:
+    #             joker = tj.TheJoker(prior, rng=rnd, pool=pool)
+    #             joker_samples = joker.rejection_sample(data, prior_samples, max_posterior_samples=256)
+    #             print("done sampling")
+    #         except:
+    #             print("failed")
+    #             return
+    # else:
+    #     pool = None
+    #     joker = tj.TheJoker(prior, rng=rnd) #creating instance of The Joker
+    #     joker_samples = joker.rejection_sample(data, prior_samples, max_posterior_samples=256) #creating rejection samples 
    
-    joker_samples.write(f"{id_num}/rejection_samples_{id_num}.hdf5", overwrite = True) #writing out posterior samples (not MCMC)
+    # joker_samples.write(f"{id_num}/rejection_samples_{id_num}.hdf5", overwrite = True) #writing out posterior samples (not MCMC)
 
-    fig2, ax2 = plt.subplots()
-    _ = tj.plot_rv_curves(joker_samples, data=data) #plotting RV curves from rejection sampler
-    fig2.savefig(f"{id_num}/RVCurves_{id_num}") #saving figure to plots folder in research folder
-    print("RV curves plotted")
+    # fig2, ax2 = plt.subplots()
+    # _ = tj.plot_rv_curves(joker_samples, data=data) #plotting RV curves from rejection sampler
+    # fig2.savefig(f"{id_num}/RVCurves_{id_num}") #saving figure to plots folder in research folder
+    # print("RV curves plotted")
 
-    #plotting period against eccentricity
-    fig3, ax3 = plt.subplots()
-    with quantity_support():
-        ax3.scatter(joker_samples["P"], joker_samples["e"], s=20, lw=0, alpha=0.5)
-    ax3.set_xscale("log")
-    ax3.set_xlim(1, 1e3)
-    ax3.set_ylim(0, 1)
-    ax3.set_xlabel("$P$ [day]")
-    ax3.set_ylabel("$e$")
-    fig3.savefig(f"{id_num}/PeriodvsEccent_{id_num}") #saving figure to plots folder in research folder 
-    print("Period vs Eccentricity plotted")
+    # #plotting period against eccentricity
+    # fig3, ax3 = plt.subplots()
+    # with quantity_support():
+    #     ax3.scatter(joker_samples["P"], joker_samples["e"], s=20, lw=0, alpha=0.5)
+    # ax3.set_xscale("log")
+    # ax3.set_xlim(1, 1e3)
+    # ax3.set_ylim(0, 1)
+    # ax3.set_xlabel("$P$ [day]")
+    # ax3.set_ylabel("$e$")
+    # fig3.savefig(f"{id_num}/PeriodvsEccent_{id_num}") #saving figure to plots folder in research folder 
+    # print("Period vs Eccentricity plotted")
 
-    if len(joker_samples) == 1: 
-        print("1 sample, needs MCMC")#if only one sample need MCMC
-        #MCMC with NUTS sampler 
-        with prior.model:
-            mcmc_init = joker.setup_mcmc(data, joker_samples)
-            trace = pm.sample(tune=500, draws=500, start=mcmc_init, cores=1, chains=2)
-        mcmc_samples = tj.JokerSamples.from_inference_data(prior, trace, data) #convert trace into jokersamples
-        mcmc_samples.write(f'{id_num}/rejection_samples_MCMC_{id_num}.hdf5', overwrite = True) #write out MCMC posterior samples 
+    # if len(joker_samples) == 1: 
+    #     print("1 sample, needs MCMC")#if only one sample need MCMC
+    #     #MCMC with NUTS sampler 
+    #     with prior.model:
+    #         mcmc_init = joker.setup_mcmc(data, joker_samples)
+    #         trace = pm.sample(tune=500, draws=500, start=mcmc_init, cores=1, chains=2)
+    #     mcmc_samples = tj.JokerSamples.from_inference_data(prior, trace, data) #convert trace into jokersamples
+    #     mcmc_samples.write(f'{id_num}/rejection_samples_MCMC_{id_num}.hdf5', overwrite = True) #write out MCMC posterior samples 
         
-        fig4, ax4 = plt.subplots()
-        _ = tj.plot_rv_curves(mcmc_samples, data=data) #plotting RV curves from MCMC rejection sampler
-        fig4.savefig(f"{id_num}/RVCurves_MCMC_{id_num}") #saving figure to plots folder in research folder
-        print("RV curves from MCMC plotted")
+    #     fig4, ax4 = plt.subplots()
+    #     _ = tj.plot_rv_curves(mcmc_samples, data=data) #plotting RV curves from MCMC rejection sampler
+    #     fig4.savefig(f"{id_num}/RVCurves_MCMC_{id_num}") #saving figure to plots folder in research folder
+    #     print("RV curves from MCMC plotted")
 
-        #plotting period vs eccentricity
-        fig5, ax5 = plt.subplots()
-        with quantity_support():
-            ax5.scatter(mcmc_samples["P"], mcmc_samples["e"], s=20, lw=0, alpha=0.5)
-        ax5.set_xscale("log")
-        ax5.set_xlim(1, 1e3)
-        ax5.set_ylim(0, 1)
-        ax5.set_xlabel("$P$ [day]")
-        ax5.set_ylabel("$e$")
-        fig5.savefig(f"{id_num}/PeriodvsEccent_MCMC_{id_num}") #saving figure to plots folder in research folder
-        print("Period vs Eccentricity from MCMC plotted")
+    #     #plotting period vs eccentricity
+    #     fig5, ax5 = plt.subplots()
+    #     with quantity_support():
+    #         ax5.scatter(mcmc_samples["P"], mcmc_samples["e"], s=20, lw=0, alpha=0.5)
+    #     ax5.set_xscale("log")
+    #     ax5.set_xlim(1, 1e3)
+    #     ax5.set_ylim(0, 1)
+    #     ax5.set_xlabel("$P$ [day]")
+    #     ax5.set_ylabel("$e$")
+    #     fig5.savefig(f"{id_num}/PeriodvsEccent_MCMC_{id_num}") #saving figure to plots folder in research folder
+    #     print("Period vs Eccentricity from MCMC plotted")
     return
 
 
