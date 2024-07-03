@@ -28,7 +28,7 @@ rnd = np.random.default_rng(seed=42)
 new_6866 = QTable.read(f'{DATA_PATH}/rcat_ngc6866_v0.fits')
 new_6811 = QTable.read(f'{DATA_PATH}/rcat_ngc6811_v0.fits')
 
-def RunTheJoker(id_num, num_priors, mpi):
+def RunTheJoker(id_num, mpi, num_priors):
     new_ids_6811 = new_6811['GAIAEDR3_ID']
     new_ids_6866 = new_6866['GAIAEDR3_ID']
 
