@@ -127,7 +127,7 @@ def RunTheJoker(id_num, num_priors, mpi):
         ax5.set_ylim(0, 1)
         ax5.set_xlabel("$P$ [day]")
         ax5.set_ylabel("$e$")
-        fig5.savefig(f"{DATA_PATH}/{id_num}/PeriodvsEccent_MCMC_{id_num}") #saving figure to plots folder in research folder
+        fig5.savefig(f"/{id_num}/PeriodvsEccent_MCMC_{id_num}") #saving figure to plots folder in research folder
         print("Period vs Eccentricity from MCMC plotted")
     return
 
