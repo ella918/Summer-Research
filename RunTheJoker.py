@@ -61,7 +61,7 @@ def RunTheJoker(id_num, num_priors, mpi):
         sigma_K0 = 30 * u.km / u.s,
         sigma_v = 100 * u.km / u.s,
     )
-    print(prior.par_names())
+    print(prior.par_names)
 
     if os.path.exists(f"{DATA_PATH}/{id_num}/prior_samples_{id_num}.hdf5"):
         prior_samples = tj.JokerSamples.read(f"{DATA_PATH}/{id_num}/prior_samples_{id_num}.hdf5")
