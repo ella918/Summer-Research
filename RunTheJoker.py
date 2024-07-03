@@ -25,8 +25,8 @@ DATA_PATH = os.getenv("DATA_PATH", "/users/EllaMathews/Summer-Research/") #envir
 rnd = np.random.default_rng(seed=42)
 
 #importing new data
-new_6866 = QTable.read('/users/EllaMathews/Research/rcat_ngc6866_v0.fits')
-new_6811 = QTable.read('/users/EllaMathews/Research/rcat_ngc6811_v0.fits')
+new_6866 = QTable.read(f'{DATA_PATH}/rcat_ngc6866_v0.fits')
+new_6811 = QTable.read(f'{DATA_PATH}/rcat_ngc6811_v0.fits')
 
 def RunTheJoker(id_num, num_priors, mpi):
     new_ids_6811 = new_6811['GAIAEDR3_ID']
