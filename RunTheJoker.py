@@ -50,11 +50,10 @@ def RunTheJoker(id_num, num_priors, mpi):
 
     if os.path.exists(f'{id_num}') == False:
         os.makedirs(f'{id_num}')
-        os.makedirs(f'{id_num}/Plots')
 
     fig1, ax1 = plt.subplots()
     _ = data.plot() #plotting rv vs time
-    fig1.savefig(f"/{id_num}/Plots/RVvsTime_{id_num}") #saving figure to plots folder
+    fig1.savefig(f"/{id_num}/RVvsTime_{id_num}") #saving figure to plots folder
     
     prior = tj.JokerPrior.default( #initializing the default prior
         P_min = 2 * u.day,
@@ -90,7 +89,7 @@ def RunTheJoker(id_num, num_priors, mpi):
 
     fig2, ax2 = plt.subplots()
     _ = tj.plot_rv_curves(joker_samples, data=data) #plotting RV curves from rejection sampler
-    fig2.savefig(f"/{id_num}/Plots/RVCurves_{id_num}") #saving figure to plots folder in research folder
+    fig2.savefig(f"/{id_num}/RVCurves_{id_num}") #saving figure to plots folder in research folder
     print("RV curves plotted")
 
     #plotting period against eccentricity
@@ -102,7 +101,7 @@ def RunTheJoker(id_num, num_priors, mpi):
     ax3.set_ylim(0, 1)
     ax3.set_xlabel("$P$ [day]")
     ax3.set_ylabel("$e$")
-    fig3.savefig(f"/{id_num}/Plots/PeriodvsEccent_{id_num}") #saving figure to plots folder in research folder 
+    fig3.savefig(f"/{id_num}/PeriodvsEccent_{id_num}") #saving figure to plots folder in research folder 
     print("Period vs Eccentricity plotted")
 
     if len(joker_samples) == 1: 
@@ -116,7 +115,7 @@ def RunTheJoker(id_num, num_priors, mpi):
         
         fig4, ax4 = plt.subplots()
         _ = tj.plot_rv_curves(mcmc_samples, data=data) #plotting RV curves from MCMC rejection sampler
-        fig4.savefig(f"/{id_num}/Plots/RVCurves_MCMC_{id_num}") #saving figure to plots folder in research folder
+        fig4.savefig(f"/{id_num}/RVCurves_MCMC_{id_num}") #saving figure to plots folder in research folder
         print("RV curves from MCMC plotted")
 
         #plotting period vs eccentricity
@@ -128,7 +127,7 @@ def RunTheJoker(id_num, num_priors, mpi):
         ax5.set_ylim(0, 1)
         ax5.set_xlabel("$P$ [day]")
         ax5.set_ylabel("$e$")
-        fig5.savefig(f"{DATA_PATH}/{id_num}/Plots/PeriodvsEccent_MCMC_{id_num}") #saving figure to plots folder in research folder
+        fig5.savefig(f"{DATA_PATH}/{id_num}/PeriodvsEccent_MCMC_{id_num}") #saving figure to plots folder in research folder
         print("Period vs Eccentricity from MCMC plotted")
     return
 
