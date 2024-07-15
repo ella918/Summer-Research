@@ -31,7 +31,7 @@ def PlotTheJoker(id_num):
 		return
 
 	new_ids_6811 = new_6811['GAIAEDR3_ID']
-   	new_ids_6866 = new_6866['GAIAEDR3_ID']
+	new_ids_6866 = new_6866['GAIAEDR3_ID']
 
 	datamatched6811 = new_6811[id_num == new_ids_6811]
 	datamatched6866 = new_6866[id_num == new_ids_6866]
