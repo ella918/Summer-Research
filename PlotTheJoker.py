@@ -31,14 +31,14 @@ def PlotTheJoker(id_num):
 		return
 
 	new_ids_6811 = new_6811['GAIAEDR3_ID']
-    new_ids_6866 = new_6866['GAIAEDR3_ID']
+   	new_ids_6866 = new_6866['GAIAEDR3_ID']
 
-    datamatched6811 = new_6811[id_num == new_ids_6811]
-    datamatched6866 = new_6866[id_num == new_ids_6866]
+	datamatched6811 = new_6811[id_num == new_ids_6811]
+	datamatched6866 = new_6866[id_num == new_ids_6866]
 
-    matched = vstack([datamatched6811, datamatched6866])
-    t1 = Time(matched["DATE-OBS"], format = "fits", scale = "tcb")
-    data = tj.RVData(t = t1, rv = matched['vrad']*(u.kilometer/u.second), rv_err = matched['vrad_err']*(u.kilometer/u.second)) 
+	matched = vstack([datamatched6811, datamatched6866])
+	t1 = Time(matched["DATE-OBS"], format = "fits", scale = "tcb")
+	data = tj.RVData(t = t1, rv = matched['vrad']*(u.kilometer/u.second), rv_err = matched['vrad_err']*(u.kilometer/u.second)) 
 
 	prior_samples = tj.JokerSamples.read(f"{DATA_PATH}/{id_num}/prior_samples_{id_num}.hdf5")
 	joker_samples = tj.JokerSamples.read(f"{id_num}/rejection_samples_{id_num}.hdf5")
