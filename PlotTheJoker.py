@@ -44,14 +44,14 @@ def PlotTheJoker(id_num):
 	joker_samples = tj.JokerSamples.read(f"{id_num}/rejection_samples_{id_num}.hdf5")
 
 	fig1, ax1 = plt.subplots()
-    _ = tj.plot_rv_curves(joker_samples, data=data) #plotting RV curves from rejection sampler
-    fig1.savefig(f"{id_num}/RVCurves_{id_num}, overwrite = True") #saving figure to plots folder in research folder
-    print("RV curves plotted")
+	_ = tj.plot_rv_curves(joker_samples, data=data) #plotting RV curves from rejection sampler
+	fig1.savefig(f"{id_num}/RVCurves_{id_num}, overwrite = True") #saving figure to plots folder in research folder
+	print("RV curves plotted")
 
-    #plotting period against eccentricity
-    fig2, ax2 = plt.subplots()
-    with quantity_support():
-        ax2.scatter(joker_samples["P"], joker_samples["e"], s=20, lw=0, alpha=0.5)
+	#plotting period against eccentricity
+	fig2, ax2 = plt.subplots()
+	with quantity_support():
+		ax2.scatter(joker_samples["P"], joker_samples["e"], s=20, lw=0, alpha=0.5)
     ax2.set_xscale("log")
     ax2.set_xlim(1, 1e3)
     ax2.set_ylim(0, 1)
