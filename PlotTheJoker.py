@@ -19,7 +19,7 @@ import os
 import schwimmbad
 
 
-DATA_PATH = os.getenv("DATA_PATH", "/users/EllaMathews/Summer-Research/") #environment variable 
+DATA_PATH = os.getenv("DATA_PATH", "/users/EllaMathews/Summer-Research") #environment variable 
 rnd = np.random.default_rng(seed=42)
 new_6866 = QTable.read(f'{DATA_PATH}/rcat_ngc6866_v0.fits')
 new_6811 = QTable.read(f'{DATA_PATH}/rcat_ngc6811_v0.fits')
@@ -45,46 +45,46 @@ def PlotTheJoker(id_num):
 
 	fig1, ax1 = plt.subplots()
 	_ = tj.plot_rv_curves(joker_samples, data=data) #plotting RV curves from rejection sampler
-	fig1.savefig(f"{id_num}/RVCurves_{id_num}, overwrite = True") #saving figure to plots folder in research folder
+	fig1.savefig(f"{id_num}/RVCurves_{id_num}") #saving figure to plots folder in research folder
 	print("RV curves plotted")
 
 	#plotting period against eccentricity
 	fig2, ax2 = plt.subplots()
 	with quantity_support():
 		ax2.scatter(joker_samples["P"], joker_samples["e"], s=20, lw=0, alpha=0.5)
-    ax2.set_xscale("log")
-    ax2.set_xlim(1, 1e3)
-    ax2.set_ylim(0, 1)
-    ax2.set_xlabel("$P$ [day]")
-    ax2.set_ylabel("$e$")
-    fig2.savefig(f"{id_num}/PeriodvsEccent_{id_num}", overwrite = True) #saving figure to plots folder in research folder 
-    print("Period vs Eccentricity plotted")
+	ax2.set_xscale("log")
+	ax2.set_xlim(1, 1e3)
+	ax2.set_ylim(0, 1)
+	ax2.set_xlabel("$P$ [day]")
+	ax2.set_ylabel("$e$")
+	fig2.savefig(f"{id_num}/PeriodvsEccent_{id_num}") #saving figure to plots folder in research folder 
+	print("Period vs Eccentricity plotted")
 
-    if len(joker_samples) == 1: 
-    	mcmc_samples = tj.JokerSamples.read(f'{id_num}/rejection_samples_MCMC_{id_num}.hdf5')
+	if len(joker_samples) == 1: 
+		mcmc_samples = tj.JokerSamples.read(f'{id_num}/rejection_samples_MCMC_{id_num}.hdf5')
 
-    	fig3, ax3 = plt.subplots()
-        _ = tj.plot_rv_curves(mcmc_samples, data=data) #plotting RV curves from MCMC rejection sampler
-        fig3.savefig(f"{id_num}/RVCurves_MCMC_{id_num}", overwrite = True) #saving figure to plots folder in research folder
-        print("RV curves from MCMC plotted")
+		fig3, ax3 = plt.subplots()
+		_ = tj.plot_rv_curves(mcmc_samples, data=data) #plotting RV curves from MCMC rejection sampler
+		fig3.savefig(f"{id_num}/RVCurves_MCMC_{id_num}") #saving figure to plots folder in research folder
+		print("RV curves from MCMC plotted")
 
-        #plotting period vs eccentricity
-        fig4, ax4 = plt.subplots()
-        with quantity_support():
-            ax4.scatter(mcmc_samples["P"], mcmc_samples["e"], s=20, lw=0, alpha=0.5)
-        ax4.set_xscale("log")
-        ax4.set_xlim(1, 1e3)
-        ax4.set_ylim(0, 1)
-        ax4.set_xlabel("$P$ [day]")
-        ax4.set_ylabel("$e$")
-        fig4.savefig(f"{id_num}/PeriodvsEccent_MCMC_{id_num}", overwrite = True) #saving figure to plots folder in research folder
-        print("Period vs Eccentricity from MCMC plotted")
+		#plotting period vs eccentricity
+		fig4, ax4 = plt.subplots()
+		with quantity_support():
+			ax4.scatter(mcmc_samples["P"], mcmc_samples["e"], s=20, lw=0, alpha=0.5)
+		ax4.set_xscale("log")
+		ax4.set_xlim(1, 1e3)
+		ax4.set_ylim(0, 1)
+		ax4.set_xlabel("$P$ [day]")
+		ax4.set_ylabel("$e$")
+		fig4.savefig(f"{id_num}/PeriodvsEccent_MCMC_{id_num}") #saving figure to plots folder in research folder
+		print("Period vs Eccentricity from MCMC plotted")
 
-  	return
+	return
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument('id', help = 'star id', type = int)
-    args = parser.parse_args()
-    
-    PlotTheJoker(args.id)
+	parser = argparse.ArgumentParser()
+	parser.add_argument('id', help = 'star id', type = int)
+	args = parser.parse_args()
+
+	PlotTheJoker(args.id)
