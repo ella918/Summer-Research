@@ -27,7 +27,7 @@ new_6811 = QTable.read(f'{DATA_PATH}/rcat_ngc6811_v0.fits')
 def PlotTheJoker(id_num):
 
 	if os.path.exists(f'{id_num}') == False: #checking if the joker has been run on this object already
-    	print("The Joker has not been run on this object yet.")
+		print("The Joker has not been run on this object yet.")
     	return
 
 	new_ids_6811 = new_6811['GAIAEDR3_ID']
