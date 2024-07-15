@@ -28,7 +28,7 @@ def PlotTheJoker(id_num):
 
 	if os.path.exists(f'{id_num}') == False: #checking if the joker has been run on this object already
 		print("The Joker has not been run on this object yet.")
-    	return
+		return
 
 	new_ids_6811 = new_6811['GAIAEDR3_ID']
     new_ids_6866 = new_6866['GAIAEDR3_ID']
