@@ -69,3 +69,10 @@ def PlotTheJoker(id_num):
         print("Period vs Eccentricity from MCMC plotted")
 
   	return
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('id', help = 'star id', type = int)
+    args = parser.parse_args()
+    
+    PlotTheJoker(args.id)
