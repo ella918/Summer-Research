@@ -18,7 +18,7 @@ import os
 
 import schwimmbad
 
-
+#importing data path and data to make joker object to plot
 DATA_PATH = os.getenv("DATA_PATH", "/users/EllaMathews/Summer-Research") #environment variable 
 rnd = np.random.default_rng(seed=42)
 new_6866 = QTable.read(f'{DATA_PATH}/rcat_ngc6866_v0.fits')
@@ -31,8 +31,8 @@ def PlotTheJoker(id_num):
 		return
 	
 	if os.path.exists(f"{DATA_PATH}/{id_num}/Plots") == False:
-		os.makedirs(f"{DATA_PATH}/{id_num}/Plots")
-
+		os.makedirs(f"{DATA_PATH}/{id_num}/Plots") #creating a plots folder 
+	#recreating the joker object to plot rv curves
 	new_ids_6811 = new_6811['GAIAEDR3_ID']
 	new_ids_6866 = new_6866['GAIAEDR3_ID']
 
@@ -45,9 +45,12 @@ def PlotTheJoker(id_num):
 
 	if len(matched) < 3:
 		print("LESS THAN 3 DATA POINTS SOMETHING IS WRONG")
+
+	#importing the outputs from running the joker (priors and  rejection samples)
 	prior_samples = tj.JokerSamples.read(f"{DATA_PATH}/{id_num}/prior_samples_{id_num}.hdf5")
 	joker_samples = tj.JokerSamples.read(f"{DATA_PATH}/{id_num}/rejection_samples_{id_num}.hdf5")
-
+	
+	#getting the lnk value to put on title (having trouble with this)
 	K = joker_samples['K']
 	K1st = np.percentile(K, 1)
 
@@ -67,6 +70,7 @@ def PlotTheJoker(id_num):
 	ax2.set_xlabel("$P$ [day]")
 	ax2.set_ylabel("$e$")
 	plt.title(f"KIC {id_num}, K1%={K1st}")
+
 	fig2.savefig(f"{DATA_PATH}/{id_num}/Plots/PeriodvsEccent_{id_num}") #saving figure to plots folder in script output  folder 
 	print("Period vs Eccentricity plotted")
 
