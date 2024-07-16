@@ -48,6 +48,8 @@ def RunTheJoker(id_num, mpi, num_priors):
         print("Not enough RV data")
         return
 
+    mils = num_prios/1000000
+
     if os.path.exists(f'{DATA_PATH}/{id_num}') == False:
         os.makedirs(f'{DATA_PATH}/{id_num}')
 
@@ -63,11 +65,11 @@ def RunTheJoker(id_num, mpi, num_priors):
     )
 
     if os.path.exists(f"{DATA_PATH}/{id_num}/prior_samples_{id_num}.hdf5"):
-        prior_samples = tj.JokerSamples.read(f"{DATA_PATH}/{id_num}/prior_samples_{id_num}.hdf5")
+        prior_samples = tj.JokerSamples.read(f"{DATA_PATH}/{id_num}/prior_samples_{mils}M_{id_num}.hdf5")
         print("Used existing priors")
     else:
         prior_samples = prior.sample(size = num_priors, rng = rnd) #generating prior samples
-        prior_samples.write(f"{id_num}/prior_samples_{id_num}.hdf5", overwrite = True) #write out prior samples to research folder 
+        prior_samples.write(f"{DATA_PATH}/{id_num}/prior_samples_{mils}M_{id_num}.hdf5", overwrite = True) #write out prior samples to research folder 
         print("New priors created")
 
     if mpi is True: #multiprocessing 
