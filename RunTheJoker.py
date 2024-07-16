@@ -48,7 +48,7 @@ def RunTheJoker(id_num, mpi, num_priors):
         print("Not enough RV data")
         return
 
-    mils = num_prios/1000000
+    mils = num_priors/1000000
 
     if os.path.exists(f'{DATA_PATH}/{id_num}') == False:
         os.makedirs(f'{DATA_PATH}/{id_num}')
@@ -111,7 +111,7 @@ def RunTheJoker(id_num, mpi, num_priors):
         #MCMC with NUTS sampler 
         with prior.model:
             mcmc_init = joker.setup_mcmc(data, joker_samples)
-            trace = pm.sample(tune=500, draws=500, start=mcmc_init, cores=1, chains=2)
+            trace = pm.sample(tune=500, draws=500, start=mcmc_init, chains=2)
         mcmc_samples = tj.JokerSamples.from_inference_data(prior, trace, data) #convert trace into jokersamples
         mcmc_samples.write(f'{id_num}/rejection_samples_MCMC_{id_num}.hdf5', overwrite = True) #write out MCMC posterior samples 
         
@@ -137,7 +137,7 @@ def RunTheJoker(id_num, mpi, num_priors):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('id', help = 'star id', type = int)
-    parser.add_argument('--mpi', help='True for multiprocessing', type = bool, default = False)
+    parser.add_argument('--mpi', help='True for multiprocessing', type = bool, default = True)
     parser.add_argument('--prior', help = 'num of prior samp default 1000', type = int, default = 50000000)
     args = parser.parse_args()
     
