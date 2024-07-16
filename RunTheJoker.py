@@ -138,7 +138,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('id', help = 'star id', type = int)
     parser.add_argument('--mpi', help='True for multiprocessing', type = bool, default = False)
-    parser.add_argument('--prior', help = 'num of prior samp default 1000', type = int, default = 1000)
+    parser.add_argument('--prior', help = 'num of prior samp default 1000', type = int, default = 50000000)
     args = parser.parse_args()
     
     RunTheJoker(args.id, args.mpi, args.prior)
