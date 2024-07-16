@@ -54,17 +54,10 @@ def PlotTheJoker(id_num):
 	K = joker_samples['K']
 	K1st = np.percentile(K, 1)
 
-	K = joker_samples['K']
-	K1st = np.percentile(K, 1)
-
 	fig1, ax1 = plt.subplots()
 	_ = tj.plot_rv_curves(joker_samples, data=data) #plotting RV curves from rejection sampler
 	plt.title(f"KIC {id_num}, K1%={K1st}")
-<<<<<<< HEAD
-	fig1.savefig(f"{DATA_PATH}/{id_num}/Plots/RVCurves_{id_num}") #saving figure to plots folder in id folder
-=======
-#	fig1.savefig(f"{DATA_PATH}/{id_num}/Plots/RVCurves_{id_num}") #saving figure to plots folder in script output folder
->>>>>>> origin/main
+	fig1.savefig(f"{DATA_PATH}/{id_num}/Plots/RVCurves_{id_num}") #saving figure to plots folder in script output folder
 	print("RV curves plotted")
 
 	#plotting period against eccentricity
@@ -77,11 +70,8 @@ def PlotTheJoker(id_num):
 	ax2.set_xlabel("$P$ [day]")
 	ax2.set_ylabel("$e$")
 	plt.title(f"KIC {id_num}, K1%={K1st}")
-<<<<<<< HEAD
-	fig2.savefig(f"{DATA_PATH}/{id_num}/Plots/PeriodvsEccent_{id_num}") #saving figure to plots folder in id  folder 
-=======
-#	fig2.savefig(f"{DATA_PATH}/{id_num}/Plots/PeriodvsEccent_{id_num}") #saving figure to plots folder in script output  folder 
->>>>>>> origin/main
+
+	fig2.savefig(f"{DATA_PATH}/{id_num}/Plots/PeriodvsEccent_{id_num}") #saving figure to plots folder in script output  folder 
 	print("Period vs Eccentricity plotted")
 
 	if len(joker_samples) == 1: 
@@ -90,11 +80,7 @@ def PlotTheJoker(id_num):
 		fig3, ax3 = plt.subplots()
 		_ = tj.plot_rv_curves(mcmc_samples, data=data) #plotting RV curves from MCMC rejection sampler
 		plt.title(f"KIC {id_num}, K1%={K1st}")
-<<<<<<< HEAD
-		fig3.savefig(f"{DATA_PATH}/{id_num}/Plots/RVCurves_MCMC_{id_num}") #saving figure to plots folder in id folder
-=======
-#		fig3.savefig(f"{DATA_PATH}/{id_num}/Plots/RVCurves_MCMC_{id_num}") #saving figure to plots folder in script output  folder
->>>>>>> origin/main
+		fig3.savefig(f"{DATA_PATH}/{id_num}/Plots/RVCurves_MCMC_{id_num}") #saving figure to plots folder in script output  folder
 		print("RV curves from MCMC plotted")
 
 		#plotting period vs eccentricity
@@ -107,11 +93,7 @@ def PlotTheJoker(id_num):
 		ax4.set_xlabel("$P$ [day]")
 		ax4.set_ylabel("$e$")
 		plt.title(f"KIC {id_num}, K1%={K1st}")
-<<<<<<< HEAD
-		fig4.savefig(f"{DATA_PATH}/{id_num}/Plots/PeriodvsEccent_MCMC_{id_num}") #saving figure to plots folder in id folder
-=======
-#		fig4.savefig(f"{DATA_PATH}/{id_num}/Plots/PeriodvsEccent_MCMC_{id_num}") #saving figure to plots folder in script output  folder
->>>>>>> origin/main
+		fig4.savefig(f"{DATA_PATH}/{id_num}/Plots/PeriodvsEccent_MCMC_{id_num}") #saving figure to plots folder in script output  folder
 		print("Period vs Eccentricity from MCMC plotted")
 
 	return
