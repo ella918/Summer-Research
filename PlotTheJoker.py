@@ -18,38 +18,31 @@ import os
 
 import schwimmbad
 
-#importing data path and data to make joker object to plot
-DATA_PATH = os.getenv("DATA_PATH", "/users/EllaMathews/Summer-Research") #environment variable 
-rnd = np.random.default_rng(seed=42)
-new_6866 = QTable.read(f'{DATA_PATH}/rcat_ngc6866_v0.fits')
-new_6811 = QTable.read(f'{DATA_PATH}/rcat_ngc6811_v0.fits')
-
 def PlotTheJoker(id_num):
 
-	if os.path.exists(f"{DATA_PATH}/{id_num}/prior_samples_{id_num}.hdf5") == False: #checking if the joker has been run on this object already
-		print("The Joker has not been run on this object yet.")
-		return
-	
-	if os.path.exists(f"{DATA_PATH}/{id_num}/Plots") == False:
-		os.makedirs(f"{DATA_PATH}/{id_num}/Plots")
+        if os.path.exists(f"{DATA_PATH}/{id_num}/prior_samples_{id_num}.hdf5") == False: #checking if the joker has been run 
+                print("The Joker has not been run on this object yet.")
+                return
+        
+        if os.path.exists(f"{DATA_PATH}/{id_num}/Plots") == False:
+                os.makedirs(f"{DATA_PATH}/{id_num}/Plots") #creating a plots folder 
+        #recreating the joker object to plot rv curves
+        new_ids_6811 = new_6811['GAIAEDR3_ID']
+        new_ids_6866 = new_6866['GAIAEDR3_ID']
 
-	new_ids_6811 = new_6811['GAIAEDR3_ID']
-	new_ids_6866 = new_6866['GAIAEDR3_ID']
+        datamatched6811 = new_6811[id_num == new_ids_6811]
+        datamatched6866 = new_6866[id_num == new_ids_6866]
 
-	datamatched6811 = new_6811[id_num == new_ids_6811]
-	datamatched6866 = new_6866[id_num == new_ids_6866]
+        matched = vstack([datamatched6811, datamatched6866])
+        t1 = Time(matched["DATE-OBS"], format = "fits", scale = "tcb")
+        data = tj.RVData(t = t1, rv = matched['vrad']*(u.kilometer/u.second), rv_err = matched['vrad_err']*(u.kilometer/u.second))
 
-	matched = vstack([datamatched6811, datamatched6866])
-	t1 = Time(matched["DATE-OBS"], format = "fits", scale = "tcb")
-	data = tj.RVData(t = t1, rv = matched['vrad']*(u.kilometer/u.second), rv_err = matched['vrad_err']*(u.kilometer/u.second)) 
+        if len(matched) < 3:
+                print("LESS THAN 3 DATA POINTS SOMETHING IS WRONG")
 
-	if len(matched) < 3:
-		print("LESS THAN 3 DATA POINTS SOMETHING IS WRONG")
-
-	#importing the outputs from running the joker (priors and  rejection samples)
-	prior_samples = tj.JokerSamples.read(f"{DATA_PATH}/{id_num}/prior_samples_{id_num}.hdf5")
+        #importing the outputs from running the joker (priors and  rejection samples)
+        prior_samples = tj.JokerSamples.read(f"{DATA_PATH}/{id_num}/prior_samples_{id_num}.hdf5")
 	joker_samples = tj.JokerSamples.read(f"{DATA_PATH}/{id_num}/rejection_samples_{id_num}.hdf5")
-
 
 	#getting the lnk value to put on title (having trouble with this)
     K = joker_samples['K']
@@ -58,7 +51,6 @@ def PlotTheJoker(id_num):
 	fig1, ax1 = plt.subplots()
 	_ = tj.plot_rv_curves(joker_samples, data=data) #plotting RV curves from rejection sampler
 	plt.title(f"KIC {id_num}, K1%={K1st}")
-	fig1.savefig(f"{DATA_PATH}/{id_num}/Plots/RVCurves_{id_num}") #saving figure to plots folder in script output folder
 	print("RV curves plotted")
 
 	#plotting period against eccentricity
@@ -70,8 +62,7 @@ def PlotTheJoker(id_num):
 	ax2.set_ylim(0, 1)
 	ax2.set_xlabel("$P$ [day]")
 	ax2.set_ylabel("$e$")
-	plt.title(f"KIC {id_num}, K1%={K1st}")
-	fig2.savefig(f"{DATA_PATH}/{id_num}/Plots/PeriodvsEccent_{id_num}") #saving figure to plots folder in script output  folder 
+	plt.title(f"KIC {id_num}, K1%={K1st}") 
 	print("Period vs Eccentricity plotted")
 
 	if len(joker_samples) == 1: 
@@ -80,7 +71,6 @@ def PlotTheJoker(id_num):
 		fig3, ax3 = plt.subplots()
 		_ = tj.plot_rv_curves(mcmc_samples, data=data) #plotting RV curves from MCMC rejection sampler
 		plt.title(f"KIC {id_num}, K1%={K1st}")
-		fig3.savefig(f"{DATA_PATH}/{id_num}/Plots/RVCurves_MCMC_{id_num}") #saving figure to plots folder in script output  folder
 		print("RV curves from MCMC plotted")
 
 		#plotting period vs eccentricity
@@ -93,7 +83,7 @@ def PlotTheJoker(id_num):
 		ax4.set_xlabel("$P$ [day]")
 		ax4.set_ylabel("$e$")
 		plt.title(f"KIC {id_num}, K1%={K1st}")
-		fig4.savefig(f"{DATA_PATH}/{id_num}/Plots/PeriodvsEccent_MCMC_{id_num}") #saving figure to plots folder in script output  folder
+	
 		print("Period vs Eccentricity from MCMC plotted")
 
 	return
