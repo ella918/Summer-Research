@@ -26,9 +26,12 @@ new_6811 = QTable.read(f'{DATA_PATH}/rcat_ngc6811_v0.fits')
 
 def PlotTheJoker(id_num):
 
-	if os.path.exists(f"{DATA_PATH}/script_logs/prior_samples_{id_num}.hdf5") == False: #checking if the joker has been run on this object already
+	if os.path.exists(f"{DATA_PATH}/{id_num}/prior_samples_{id_num}.hdf5") == False: #checking if the joker has been run on this object already
 		print("The Joker has not been run on this object yet.")
 		return
+	
+	if os.path.exists(f"{DATA_PATH}/{id_num}/Plots") == False:
+		os.makedirs(f"{DATA_PATH}/{id_num}/Plots")
 
 	new_ids_6811 = new_6811['GAIAEDR3_ID']
 	new_ids_6866 = new_6866['GAIAEDR3_ID']
@@ -42,13 +45,13 @@ def PlotTheJoker(id_num):
 
 	if len(matched) < 3:
 		print("LESS THAN 3 DATA POINTS SOMETHING IS WRONG")
-	prior_samples = tj.JokerSamples.read(f"{DATA_PATH}/script_logs/prior_samples_{id_num}.hdf5")
-	joker_samples = tj.JokerSamples.read(f"{DATA_PATH}/script_logs/rejection_samples_{id_num}.hdf5")
+	prior_samples = tj.JokerSamples.read(f"{DATA_PATH}/{id_num}/prior_samples_{id_num}.hdf5")
+	joker_samples = tj.JokerSamples.read(f"{DATA_PATH}/{id_num}/rejection_samples_{id_num}.hdf5")
 
 	fig1, ax1 = plt.subplots()
 	_ = tj.plot_rv_curves(joker_samples, data=data) #plotting RV curves from rejection sampler
 	plt.title(f"KIC {id_num}, lnK1%=")
-	fig1.savefig(f"{DATA_PATH}/script_logs/RVCurves_{id_num}") #saving figure to plots folder in script output folder
+	fig1.savefig(f"{DATA_PATH}/{id_num}/Plots/RVCurves_{id_num}") #saving figure to plots folder in script output folder
 	print("RV curves plotted")
 
 	#plotting period against eccentricity
@@ -61,16 +64,16 @@ def PlotTheJoker(id_num):
 	ax2.set_xlabel("$P$ [day]")
 	ax2.set_ylabel("$e$")
 	plt.title(f"KIC {id_num}, lnK1%=")
-	fig2.savefig(f"{DATA_PATH}/script_logs/PeriodvsEccent_{id_num}") #saving figure to plots folder in script output  folder 
+	fig2.savefig(f"{DATA_PATH}/{id_num}/Plots/PeriodvsEccent_{id_num}") #saving figure to plots folder in script output  folder 
 	print("Period vs Eccentricity plotted")
 
 	if len(joker_samples) == 1: 
-		mcmc_samples = tj.JokerSamples.read(f'{DATA_PATH}/script_logs/rejection_samples_MCMC_{id_num}.hdf5')
+		mcmc_samples = tj.JokerSamples.read(f'{DATA_PATH}/{id_num}/rejection_samples_MCMC_{id_num}.hdf5')
 
 		fig3, ax3 = plt.subplots()
 		_ = tj.plot_rv_curves(mcmc_samples, data=data) #plotting RV curves from MCMC rejection sampler
 		plt.title(f"KIC {id_num}, lnK1%=")
-		fig3.savefig(f"{DATA_PATH}/script_logs/RVCurves_MCMC_{id_num}") #saving figure to plots folder in script output  folder
+		fig3.savefig(f"{DATA_PATH}/{id_num}/Plots/RVCurves_MCMC_{id_num}") #saving figure to plots folder in script output  folder
 		print("RV curves from MCMC plotted")
 
 		#plotting period vs eccentricity
@@ -83,7 +86,7 @@ def PlotTheJoker(id_num):
 		ax4.set_xlabel("$P$ [day]")
 		ax4.set_ylabel("$e$")
 		plt.title(f"KIC {id_num}, lnK1%=")
-		fig4.savefig(f"{DATA_PATH}/script_logs/PeriodvsEccent_MCMC_{id_num}") #saving figure to plots folder in script output  folder
+		fig4.savefig(f"{DATA_PATH}/{id_num}/Plots/PeriodvsEccent_MCMC_{id_num}") #saving figure to plots folder in script output  folder
 		print("Period vs Eccentricity from MCMC plotted")
 
 	return
