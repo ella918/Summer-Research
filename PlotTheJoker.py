@@ -18,7 +18,7 @@ import os
 
 import schwimmbad
 
-
+#importing data path and data to make joker object to plot
 DATA_PATH = os.getenv("DATA_PATH", "/users/EllaMathews/Summer-Research") #environment variable 
 rnd = np.random.default_rng(seed=42)
 new_6866 = QTable.read(f'{DATA_PATH}/rcat_ngc6866_v0.fits')
@@ -31,8 +31,8 @@ def PlotTheJoker(id_num):
 		return
 	
 	if os.path.exists(f"{DATA_PATH}/{id_num}/Plots") == False:
-		os.makedirs(f"{DATA_PATH}/{id_num}/Plots")
-
+		os.makedirs(f"{DATA_PATH}/{id_num}/Plots") #creating a plots folder 
+	#recreating the joker object to plot rv curves
 	new_ids_6811 = new_6811['GAIAEDR3_ID']
 	new_ids_6866 = new_6866['GAIAEDR3_ID']
 
@@ -45,13 +45,24 @@ def PlotTheJoker(id_num):
 
 	if len(matched) < 3:
 		print("LESS THAN 3 DATA POINTS SOMETHING IS WRONG")
+
+	#importing the outputs from running the joker (priors and  rejection samples)
 	prior_samples = tj.JokerSamples.read(f"{DATA_PATH}/{id_num}/prior_samples_{id_num}.hdf5")
 	joker_samples = tj.JokerSamples.read(f"{DATA_PATH}/{id_num}/rejection_samples_{id_num}.hdf5")
+	
+	#getting the lnk value to put on title (having trouble with this)
+	K = joker_samples['K']
+	lnk = []
+	for k in K:
+		k_new = k.value
+		ln = np.log(abs(k_new))
+		lnk.append(ln)
+	lnK1st = np.percentile(lnk, 1)
 
 	fig1, ax1 = plt.subplots()
 	_ = tj.plot_rv_curves(joker_samples, data=data) #plotting RV curves from rejection sampler
-	plt.title(f"KIC {id_num}, lnK1%=")
-	fig1.savefig(f"{DATA_PATH}/{id_num}/Plots/RVCurves_{id_num}") #saving figure to plots folder in script output folder
+	plt.title(f"KIC {id_num}, lnK1%={lnK1st}")
+	fig1.savefig(f"{DATA_PATH}/{id_num}/Plots/RVCurves_{id_num}") #saving figure to plots folder in id folder
 	print("RV curves plotted")
 
 	#plotting period against eccentricity
@@ -63,8 +74,8 @@ def PlotTheJoker(id_num):
 	ax2.set_ylim(0, 1)
 	ax2.set_xlabel("$P$ [day]")
 	ax2.set_ylabel("$e$")
-	plt.title(f"KIC {id_num}, lnK1%=")
-	fig2.savefig(f"{DATA_PATH}/{id_num}/Plots/PeriodvsEccent_{id_num}") #saving figure to plots folder in script output  folder 
+	plt.title(f"KIC {id_num}, lnK1%={lnK1st}")
+	fig2.savefig(f"{DATA_PATH}/{id_num}/Plots/PeriodvsEccent_{id_num}") #saving figure to plots folder in id  folder 
 	print("Period vs Eccentricity plotted")
 
 	if len(joker_samples) == 1: 
@@ -72,8 +83,8 @@ def PlotTheJoker(id_num):
 
 		fig3, ax3 = plt.subplots()
 		_ = tj.plot_rv_curves(mcmc_samples, data=data) #plotting RV curves from MCMC rejection sampler
-		plt.title(f"KIC {id_num}, lnK1%=")
-		fig3.savefig(f"{DATA_PATH}/{id_num}/Plots/RVCurves_MCMC_{id_num}") #saving figure to plots folder in script output  folder
+		plt.title(f"KIC {id_num}, lnK1%={lnK1st}")
+		fig3.savefig(f"{DATA_PATH}/{id_num}/Plots/RVCurves_MCMC_{id_num}") #saving figure to plots folder in id folder
 		print("RV curves from MCMC plotted")
 
 		#plotting period vs eccentricity
@@ -85,8 +96,8 @@ def PlotTheJoker(id_num):
 		ax4.set_ylim(0, 1)
 		ax4.set_xlabel("$P$ [day]")
 		ax4.set_ylabel("$e$")
-		plt.title(f"KIC {id_num}, lnK1%=")
-		fig4.savefig(f"{DATA_PATH}/{id_num}/Plots/PeriodvsEccent_MCMC_{id_num}") #saving figure to plots folder in script output  folder
+		plt.title(f"KIC {id_num}, lnK1%={lnK1st}")
+		fig4.savefig(f"{DATA_PATH}/{id_num}/Plots/PeriodvsEccent_MCMC_{id_num}") #saving figure to plots folder in id folder
 		print("Period vs Eccentricity from MCMC plotted")
 
 	return
