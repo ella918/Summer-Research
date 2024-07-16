@@ -40,6 +40,8 @@ def PlotTheJoker(id_num):
 	t1 = Time(matched["DATE-OBS"], format = "fits", scale = "tcb")
 	data = tj.RVData(t = t1, rv = matched['vrad']*(u.kilometer/u.second), rv_err = matched['vrad_err']*(u.kilometer/u.second)) 
 
+	if len(matched) < 3:
+		print("LESS THAN 3 DATA POINTS SOMETHING IS WRONG")
 	prior_samples = tj.JokerSamples.read(f"{DATA_PATH}/script_logs/prior_samples_{id_num}.hdf5")
 	joker_samples = tj.JokerSamples.read(f"{DATA_PATH}/script_logs/rejection_samples_{id_num}.hdf5")
 
