@@ -8,7 +8,6 @@ from astropy.table import QTable, Table, Column, vstack, unique
 from astropy.time import Time
 from astropy.visualization.units import quantity_support
 import os
-from sklearn.cluster import KMeans
 
 
 workpath = '/data2/labs/douglste-laf-lab/mathewea/TheJoker_Outputs'
