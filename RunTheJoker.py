@@ -76,7 +76,7 @@ def RunTheJoker(id_num, mpi, num_priors):
         prior_samples.write(f"{workpath}/{id_num}/prior_samples_{mils}M_{id_num}.hdf5", overwrite = True) #write out prior samples to research folder 
         print("New priors created")
 
-    if mpi is True: #multiprocessing 
+    if mpi is True: #multiprocessing- GETTING ERROR HERE CURRENTLY!!! not creating a rejection sample file 
         with schwimmbad.MultiPool() as pool:
             print("Multiprocessing")
             try:
