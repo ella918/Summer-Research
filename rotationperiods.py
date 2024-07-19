@@ -68,7 +68,7 @@ colordata6811['e_Gmag'] = data_6811['GAIAEDR3_G_ERR']
 
 combinedwithcolor6811 = table.unique(join(rotRV6811, colordata6811, keys = 'Gaia'), keys = 'Gaia')
 wantedcolumns6811 = combinedwithcolor6811['Gaia', 'Per', 'BP-RP', 'Gmag', 'e_BP-RP', 'e_Gmag', 'num_RV']
-
+wantedcolumns6811.write('RotationPeriodRV_6811.csv', format = 'csv', overwrite = True)
 
 all6866 = Table()
 all6866['Gaia'] = values6866
@@ -85,6 +85,7 @@ colordata6866['e_Gmag'] = data_6866['GAIAEDR3_G_ERR']
 
 combinedwithcolor6866 = table.unique(join(rotRV6866, colordata6866, keys = 'Gaia'), keys = 'Gaia')
 wantedcolumns6866 = combinedwithcolor6866['Gaia', 'Per', 'BP-RP', 'Gmag', 'e_BP-RP', 'e_Gmag', 'num_RV']
+wantedcolumns6866.write('RotationPeriodRV_6866.csv', format = 'csv', overwrite = True)
 
 counterPer6811 = 0 	
 counterPer3RV6811 = 0

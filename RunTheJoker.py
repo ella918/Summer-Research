@@ -81,7 +81,7 @@ def RunTheJoker(id_num, mpi, num_priors):
             print("Multiprocessing")
             try:
                 joker = tj.TheJoker(prior, rng=rnd, pool=pool)
-                joker_samples = joker.rejection_sample(data, prior_samples, max_posterior_samples=256)
+                joker_samples = joker.rejection_sample(data, prior_samples, max_posterior_samples=256, return_logprobs=True)
                 print("done sampling")
             except:
                 print("failed")
@@ -89,7 +89,7 @@ def RunTheJoker(id_num, mpi, num_priors):
     else:
         pool = None
         joker = tj.TheJoker(prior, rng=rnd) #creating instance of The Joker
-        joker_samples = joker.rejection_sample(data, prior_samples, max_posterior_samples=256) #creating rejection samples 
+        joker_samples = joker.rejection_sample(data, prior_samples, max_posterior_samples=256, return_logprobs=True) #creating rejection samples 
    
     joker_samples.write(f"{workpath}/{id_num}/rejection_samples_{id_num}.hdf5", overwrite = True) #writing out posterior samples (not MCMC)
 
