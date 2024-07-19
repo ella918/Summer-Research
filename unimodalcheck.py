@@ -34,10 +34,10 @@ for idnum in idlist['GAIAEDR3_ID']:
 
 	if os.path.exists(f'{workpath}/{idnum}'):
 		ids.append(idnum)
-		joker_samples = tj.JokerSamples.read(f'{workpath}/{idnum}/rejection_samples_{id_num}.hdf5')
+		joker_samples = tj.JokerSamples.read(f'{workpath}/{idnum}/rejection_samples_{idnum}.hdf5')
 		numsamples = len(joker_samples)
 		if os.path.exists(f'{workpath}/{idnum}/rejection_samples_MCMC_{id_num}.hdf5'):
-			joker_samples = tj.JokerSamples.read(f'{workpath}/{idnum}/rejection_samples_MCMC_{id_num}.hdf5')
+			joker_samples = tj.JokerSamples.read(f'{workpath}/{idnum}/rejection_samples_MCMC_{idnum}.hdf5')
 			numsamples = 0
 			mcmc_check = 1
 		else:
