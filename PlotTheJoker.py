@@ -56,7 +56,7 @@ def PlotTheJoker(id_num):
 
 	fig1, ax1 = plt.subplots()
 	_ = tj.plot_rv_curves(joker_samples, data=data) #plotting RV curves from rejection sampler
-	plt.title(f"KIC {id_num}, K1%={K1st}")
+	plt.title(f"ID: {id_num}, K1%={K1st}")
 	fig1.savefig(f"{DATA_PATH}/{id_num}/Plots/RVCurves_{id_num}") #saving figure to plots folder in script output folder
 	print("RV curves plotted")
 
@@ -69,7 +69,7 @@ def PlotTheJoker(id_num):
 	ax2.set_ylim(0, 1)
 	ax2.set_xlabel("$P$ [day]")
 	ax2.set_ylabel("$e$")
-	plt.title(f"KIC {id_num}, K1%={K1st}")
+	plt.title(f"ID: {id_num}, K1%={K1st}")
 
 	fig2.savefig(f"{DATA_PATH}/{id_num}/Plots/PeriodvsEccent_{id_num}") #saving figure to plots folder in script output  folder 
 	print("Period vs Eccentricity plotted")
@@ -79,7 +79,7 @@ def PlotTheJoker(id_num):
 
 		fig3, ax3 = plt.subplots()
 		_ = tj.plot_rv_curves(mcmc_samples, data=data) #plotting RV curves from MCMC rejection sampler
-		plt.title(f"KIC {id_num}, K1%={K1st}")
+		plt.title(f"ID: {id_num}, K1%={K1st}")
 		fig3.savefig(f"{DATA_PATH}/{id_num}/Plots/RVCurves_MCMC_{id_num}") #saving figure to plots folder in script output  folder
 		print("RV curves from MCMC plotted")
 
@@ -92,7 +92,7 @@ def PlotTheJoker(id_num):
 		ax4.set_ylim(0, 1)
 		ax4.set_xlabel("$P$ [day]")
 		ax4.set_ylabel("$e$")
-		plt.title(f"KIC {id_num}, K1%={K1st}")
+		plt.title(f"ID: {id_num}, K1%={K1st}")
 		fig4.savefig(f"{DATA_PATH}/{id_num}/Plots/PeriodvsEccent_MCMC_{id_num}") #saving figure to plots folder in script output  folder
 		print("Period vs Eccentricity from MCMC plotted")
 
