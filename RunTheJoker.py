@@ -72,7 +72,7 @@ def RunTheJoker(id_num, mpi, num_priors):
         prior_samples = tj.JokerSamples.read(f"{workpath}/{id_num}/prior_samples_{mils}M_{id_num}.hdf5")
         print("Used existing priors")
     else:
-        prior_samples = prior.sample(size = num_priors, rng = rnd) #generating prior samples
+        prior_samples = prior.sample(size = num_priors, rng = rnd, return_logprobs = True) #generating prior samples
         prior_samples.write(f"{workpath}/{id_num}/prior_samples_{mils}M_{id_num}.hdf5", overwrite = True) #write out prior samples to research folder 
         print("New priors created")
 
@@ -85,6 +85,7 @@ def RunTheJoker(id_num, mpi, num_priors):
                 print("done sampling")
             except:
                 print("failed")
+                raise
                 return
     else:
         pool = None
