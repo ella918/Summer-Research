@@ -22,7 +22,7 @@ ids = []
 mcmc = []
 num_samples = []
 unimodal = []
-bimodal = []
+#bimodal = []
 
 for idnum in idlist['GAIAEDR3_ID']:
 	new_ids_6811 = new_6811['GAIAEDR3_ID']
@@ -36,6 +36,7 @@ for idnum in idlist['GAIAEDR3_ID']:
 	if os.path.exists(f'{workpath}/{idnum}'):
 		ids.append(idnum)
 		joker_samples = tj.JokerSamples.read(f'{workpath}/{idnum}/rejection_samples_{idnum}.hdf5')
+		print(joker_samples.info())
 		numsamples = len(joker_samples)
 		if os.path.exists(f'{workpath}/{idnum}/rejection_samples_MCMC_{idnum}.hdf5'):
 			joker_samples = tj.JokerSamples.read(f'{workpath}/{idnum}/rejection_samples_MCMC_{idnum}.hdf5')
@@ -47,19 +48,19 @@ for idnum in idlist['GAIAEDR3_ID']:
 			uni = 1
 		else:
 			uni = 0
-		if tj.is_P_Kmodal(joker_samples, data, 2):
-			bi = 1
-		else:
-			bi = 0 
+		#if tj.is_P_Kmodal(joker_samples, data, 2):
+		#	bi = 1
+		#else:
+		#	bi = 0 
 		num_samples.append(numsamples)
 		mcmc.append(mcmc_check)
 		unimodal.append(uni)
-		bimodal.append(bi)
+		#bimodal.append(bi)
 
 datatable['id'] = ids
 datatable['num_samples'] = num_samples
 datatable['MCMC'] = mcmc
 datatable['unimodal'] = unimodal
-datatable['bimodal'] = bimodal
+#datatable['bimodal'] = bimodal
 
 datatable.write('unimodalcheck.csv', format = 'csv', overwrite = True)
