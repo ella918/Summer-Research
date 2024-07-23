@@ -36,7 +36,6 @@ for idnum in idlist['GAIAEDR3_ID']:
 	if os.path.exists(f'{workpath}/{idnum}'):
 		ids.append(idnum)
 		joker_samples = tj.JokerSamples.read(f'{workpath}/{idnum}/rejection_samples_{idnum}.hdf5')
-		print(joker_samples.dtype())
 		numsamples = len(joker_samples)
 		if os.path.exists(f'{workpath}/{idnum}/rejection_samples_MCMC_{idnum}.hdf5'):
 			joker_samples = tj.JokerSamples.read(f'{workpath}/{idnum}/rejection_samples_MCMC_{idnum}.hdf5')
