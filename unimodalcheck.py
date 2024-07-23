@@ -33,7 +33,7 @@ for idnum in idlist['GAIAEDR3_ID']:
 	t1 = Time(matched["DATE-OBS"], format = "fits", scale = "tcb")
 	data = tj.RVData(t = t1, rv = matched['vrad']*(u.kilometer/u.second), rv_err = matched['vrad_err']*(u.kilometer/u.second))
 
-	if os.path.exists(f'{workpath}/{idnum}'):
+	if os.path.exists(f'{workpath}/{idnum}/rejection_samples_{idnum}.hdf5'):
 		ids.append(idnum)
 		joker_samples = tj.JokerSamples.read(f'{workpath}/{idnum}/rejection_samples_{idnum}.hdf5')
 		numsamples = len(joker_samples)
