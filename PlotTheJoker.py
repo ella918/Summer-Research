@@ -98,6 +98,7 @@ def PlotTheJoker(id_num):
 		fig4.savefig(f"{workpath}/PeriodvsEccent_MCMC_{id_num}") #saving figure to plots folder in script output  folder
 		print("Period vs Eccentricity from MCMC plotted")
 
+		plot.close()
 	return
 
 for i in range(len(unimodal_table)):
