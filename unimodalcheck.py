@@ -62,4 +62,18 @@ datatable['MCMC'] = mcmc
 datatable['unimodal'] = unimodal
 #datatable['bimodal'] = bimodal
 
+ReRunTable = Table()
+rerunids = []
+
 datatable.write('unimodalcheck.csv', format = 'csv', overwrite = True)
+
+for i in range(len(datatable)):
+	if datatable['MCMC'][i] == 0 and datatable['num_samples'][i] < 256:
+		rerunids.append(datatable['id'][i])
+	if datatable['MCMC'][i] == 1 and datatable['unimodal'] == 0:
+		rerunids.append(datatable['id'][i])
+
+ReRunTable['id'] = rerunids
+
+ReRunTable.write('rerunids.csv', format = 'csv', overwrite = True)
+print(len(ReRunTable))

@@ -54,8 +54,8 @@ def RunTheJoker(id_num, mpi, num_priors):
 
     mils = num_priors/1000000
 
-    if os.path.exists(f'{workpath}/{id_num}') == False:
-        os.makedirs(f'{workpath}/{id_num}')
+    if os.path.exists(f'{workpath}/{mils}/{id_num}') == False:
+        os.makedirs(f'{workpath}/{mils}M/{id_num}')
 
     # fig1, ax1 = plt.subplots()
     # _ = data.plot() #plotting rv vs time
@@ -68,12 +68,12 @@ def RunTheJoker(id_num, mpi, num_priors):
         sigma_v = 100 * u.km / u.s,
     )
 
-    if os.path.exists(f"{workpath}/{id_num}/prior_samples_{id_num}.hdf5"):
-        prior_samples = tj.JokerSamples.read(f"{workpath}/{id_num}/prior_samples_{mils}M_{id_num}.hdf5")
+    if os.path.exists(f"{workpath}/{mils}M/{id_num}/prior_samples_{mils}M_{id_num}.hdf5"):
+        prior_samples = tj.JokerSamples.read(f"{workpath}/{mils}M/{id_num}/prior_samples_{mils}M_{id_num}.hdf5")
         print("Used existing priors")
     else:
         prior_samples = prior.sample(size = num_priors, rng = rnd, return_logprobs = True) #generating prior samples
-        prior_samples.write(f"{workpath}/{id_num}/prior_samples_{mils}M_{id_num}.hdf5", overwrite = True) #write out prior samples to research folder 
+        prior_samples.write(f"{workpath}/{mils}M/{id_num}/prior_samples_{mils}M_{id_num}.hdf5", overwrite = True) #write out prior samples to research folder 
         print("New priors created")
 
     if mpi is True: #multiprocessing- GETTING ERROR HERE CURRENTLY!!! not creating a rejection sample file 
@@ -92,7 +92,7 @@ def RunTheJoker(id_num, mpi, num_priors):
         joker = tj.TheJoker(prior, rng=rnd) #creating instance of The Joker
         joker_samples = joker.rejection_sample(data, prior_samples, max_posterior_samples=256, return_logprobs=True) #creating rejection samples 
    
-    joker_samples.write(f"{workpath}/{id_num}/rejection_samples_{id_num}.hdf5", overwrite = True) #writing out posterior samples (not MCMC)
+    joker_samples.write(f"{workpath}/{mils}M/{id_num}/rejection_samples_{mils}M_{id_num}.hdf5", overwrite = True) #writing out posterior samples (not MCMC)
 
     # fig2, ax2 = plt.subplots()
     # _ = tj.plot_rv_curves(joker_samples, data=data) #plotting RV curves from rejection sampler
@@ -118,7 +118,7 @@ def RunTheJoker(id_num, mpi, num_priors):
             mcmc_init = joker.setup_mcmc(data, joker_samples)
             trace = pm.sample(tune=500, draws=500, start=mcmc_init, chains=2)
         mcmc_samples = tj.JokerSamples.from_inference_data(prior, trace, data) #convert trace into jokersamples
-        mcmc_samples.write(f'{workpath}/{id_num}/rejection_samples_MCMC_{id_num}.hdf5', overwrite = True) #write out MCMC posterior samples 
+        mcmc_samples.write(f'{workpath}/{mils}M/{id_num}/rejection_samples_MCMC_{mils}M_{id_num}.hdf5', overwrite = True) #write out MCMC posterior samples 
         
         # fig4, ax4 = plt.subplots()
         # _ = tj.plot_rv_curves(mcmc_samples, data=data) #plotting RV curves from MCMC rejection sampler
@@ -143,7 +143,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('id', help = 'star id', type = int)
     parser.add_argument('--mpi', help='False for no multiprocessing', type = bool, default = True)
-    parser.add_argument('--prior', help = 'num of prior samp default 10000000', type = int, default = 10000000)
+    parser.add_argument('--prior', help = 'num of prior samp default 50000000', type = int, default = 50000000)
     args = parser.parse_args()
     
     RunTheJoker(args.id, args.mpi, args.prior)
