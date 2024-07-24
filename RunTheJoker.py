@@ -53,8 +53,10 @@ def RunTheJoker(id_num, mpi, num_priors):
         return
 
     mils = num_priors/1000000
-
-    if os.path.exists(f'{workpath}/{mils}/{id_num}') == False:
+    if os.path.exists(f'{workpath}/{mils}M') == False:
+        os.makedirs(f'{workpath}/{mils}M')
+        
+    if os.path.exists(f'{workpath}/{mils}M/{id_num}') == False:
         os.makedirs(f'{workpath}/{mils}M/{id_num}')
 
     # fig1, ax1 = plt.subplots()

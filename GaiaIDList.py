@@ -19,6 +19,6 @@ for num in id_list_rvs:
 	idnum = np.int64(num)
 	if idnum not in id_list_empty_rvs:
 		ids.append(idnum)
-idtable["GAIAEDR3_ID"] = ids
+idtable["GAIAEDR3_ID"] = np.unique(ids)
 print(len(idtable))
 idtable.write("GAIADR3_IDs.csv", format = "csv", overwrite = True)
