@@ -74,7 +74,7 @@ for i in range(len(datatable)):
 		rerunids.append(datatable['id'][i])
 
 weirdids = [2128515216999497600, 2128515496174251008, 2075875655448389120]
-rerunids.append(weridids)
+rerunids.append(weirdids)
 ReRunTable['id'] = np.unique(rerunids)
 
 ReRunTable.write('rerunids.csv', format = 'csv', overwrite = True)
