@@ -73,7 +73,7 @@ for i in range(len(datatable)):
 	if datatable['MCMC'][i] == 1 and datatable['unimodal'][i] == 0:
 		rerunids.append(datatable['id'][i])
 
-ReRunTable['id'] = rerunids
+ReRunTable['id'] = np.unique(rerunids)
 
 ReRunTable.write('rerunids.csv', format = 'csv', overwrite = True)
 print(len(ReRunTable))
