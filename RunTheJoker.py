@@ -40,13 +40,14 @@ def RunTheJoker(id_num, mpi, num_priors):
     datamatched6866 = new_6866[id_num == new_ids_6866]
 
     matched = vstack([datamatched6811, datamatched6866])
-    
+    print('created matched')
     if len(matched) == 0:
         print("No RV data for this ID")
         return
         
     t1 = Time(matched["DATE-OBS"], format = "fits", scale = "tcb")
     data = tj.RVData(t = t1, rv = matched['vrad']*(u.kilometer/u.second), rv_err = matched['vrad_err']*(u.kilometer/u.second)) 
+    print('created RV data object')
 
     if len(data) < 3:
         print("Not enough RV data")
@@ -69,6 +70,7 @@ def RunTheJoker(id_num, mpi, num_priors):
         sigma_K0 = 30 * u.km / u.s,
         sigma_v = 100 * u.km / u.s,
     )
+    print('initialized default prior')
 
     if os.path.exists(f"{DATA_PATH}/{mils}M/{id_num}/prior_samples_{mils}M_{id_num}.hdf5"):
         prior_samples = tj.JokerSamples.read(f"{DATA_PATH}/{mils}M/{id_num}/prior_samples_{mils}M_{id_num}.hdf5")
@@ -94,9 +96,9 @@ def RunTheJoker(id_num, mpi, num_priors):
         pool = None
         joker = tj.TheJoker(prior, rng=rnd) #creating instance of The Joker
         joker_samples = joker.rejection_sample(data, prior_samples, max_posterior_samples=256, return_logprobs=True) #creating rejection samples 
-   
+    print('rejection sample created')
     joker_samples.write(f"{workpath}/{mils}M/{id_num}/rejection_samples_{mils}M_{id_num}.hdf5", overwrite = True) #writing out posterior samples (not MCMC)
-
+    print('joker samples written out')
     # fig2, ax2 = plt.subplots()
     # _ = tj.plot_rv_curves(joker_samples, data=data) #plotting RV curves from rejection sampler
     # fig2.savefig(f"{id_num}/RVCurves_{id_num}") #saving figure to plots folder in research folder
@@ -148,5 +150,5 @@ if __name__ == "__main__":
     parser.add_argument('--mpi', help='False for no multiprocessing', type = bool, default = True)
     parser.add_argument('--prior', help = 'num of prior samp default 50000000', type = int, default = 50000000)
     args = parser.parse_args()
-    
+    print('args')
     RunTheJoker(args.id, args.mpi, args.prior)
