@@ -70,10 +70,11 @@ def RunTheJoker(id_num, mpi, num_priors):
         sigma_v = 100 * u.km / u.s,
     )
 
-    if os.path.exists(f"{workpath}/{mils}M/{id_num}/prior_samples_{mils}M_{id_num}.hdf5"):
-        prior_samples = tj.JokerSamples.read(f"{workpath}/{mils}M/{id_num}/prior_samples_{mils}M_{id_num}.hdf5")
+    if os.path.exists(f"{DATA_PATH}/{mils}M/{id_num}/prior_samples_{mils}M_{id_num}.hdf5"):
+        prior_samples = tj.JokerSamples.read(f"{DATA_PATH}/{mils}M/{id_num}/prior_samples_{mils}M_{id_num}.hdf5")
         print("Used existing priors")
     else:
+        print("Creating new priors")
         prior_samples = prior.sample(size = num_priors, rng = rnd, return_logprobs = True) #generating prior samples
         prior_samples.write(f"{workpath}/{mils}M/{id_num}/prior_samples_{mils}M_{id_num}.hdf5", overwrite = True) #write out prior samples to research folder 
         print("New priors created")
