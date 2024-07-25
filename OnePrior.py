@@ -28,7 +28,6 @@ rnd = np.random.default_rng(seed=42)
 
 def CreatePriors(num_priors):
 	mils = num_priors/1000000
-
 	prior = tj.JokerPrior.default( #initializing the default prior
         P_min = 2 * u.day,
         P_max = 1e3 * u.day,
@@ -38,23 +37,22 @@ def CreatePriors(num_priors):
 	print('initialized default prior')
 
 	if os.path.exists(f'{DATA_PATH}/{mils}M/prior_samples_{mils}M.hdf5') == False:
-    	print('Creating new priors')
-    	prior_samples = prior.sample(size = num_priors, rng = rnd, return_logprobs = True) #generating prior samples
-    	print("New priors created")
-    	prior_samples.write(f"{workpath}/{mils}M/prior_samples_{mils}M.hdf5", overwrite = True) #write out prior samples to research folder 
-    	print("Priors saved to file")
-
-    return
+		print('Creating new priors')
+		prior_samples = prior.sample(size = num_priors, rng = rnd, return_logprobs = True) #generating prior samples
+		print("New priors created")
+		prior_samples.write(f"{workpath}/{mils}M/prior_samples_{mils}M.hdf5", overwrite = True) #write out prior samples to research folder 
+		print("Priors saved to file")
+	return
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--prior', help = 'num of prior samp default 50000000', type = int, default = 50000000)
-    args = parser.parse_args()
-    print('args')
+	parser = argparse.ArgumentParser()
+	parser.add_argument('--prior', help = 'num of prior samp default 50000000', type = int, default = 50000000)
+	args = parser.parse_args()
+	print('args')
 
-    CreatePriors(args.prior)
+	CreatePriors(args.prior)
 
-
+ 
 
 
 
