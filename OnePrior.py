@@ -37,7 +37,7 @@ def CreatePriors(num_priors):
     )
     print('initialized default prior')
 
-    if os.path.exists(f'{DATA_PATH}/{mils}M/prior_samples_{mils}M.hdf5') == False:
+	if os.path.exists(f'{DATA_PATH}/{mils}M/prior_samples_{mils}M.hdf5') == False:
     	print('Creating new priors')
     	prior_samples = prior.sample(size = num_priors, rng = rnd, return_logprobs = True) #generating prior samples
     	print("New priors created")
