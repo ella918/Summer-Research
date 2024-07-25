@@ -26,7 +26,7 @@ else:
 #random generator to ensure reproducibility
 rnd = np.random.default_rng(seed=42)
 
-CreatePriors(num_priors):
+def CreatePriors(num_priors):
 	mils = num_priors/1000000
 
 	prior = tj.JokerPrior.default( #initializing the default prior
