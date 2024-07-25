@@ -35,7 +35,7 @@ def CreatePriors(num_priors):
         sigma_K0 = 30 * u.km / u.s,
         sigma_v = 100 * u.km / u.s,
     )
-    print('initialized default prior')
+	print('initialized default prior')
 
 	if os.path.exists(f'{DATA_PATH}/{mils}M/prior_samples_{mils}M.hdf5') == False:
     	print('Creating new priors')
