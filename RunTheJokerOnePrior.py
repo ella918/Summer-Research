@@ -54,7 +54,7 @@ def RunTheJokerOnePrior(id_num, mpi, num_priors):
         sigma_K0 = 30 * u.km / u.s,
         sigma_v = 100 * u.km / u.s,
     )
-    prior_samples = tj.JokerSamples.read(f'{workpath}/prior_samples_{mils}M.hdf5', format = 'hdf5')
+    prior_samples = tj.JokerSamples.read(f'{workpath}/prior_samples_{mils}M.hdf5')
 
     if mpi is True: #multiprocessing
         with schwimmbad.MultiPool() as pool:
