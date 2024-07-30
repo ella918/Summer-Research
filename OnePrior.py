@@ -40,8 +40,8 @@ def CreatePriors(num_priors):
 		print('Creating new priors')
 		prior_samples = prior.sample(size = num_priors, rng = rnd, return_logprobs = True) #generating prior samples
 		print("New priors created")
-		prior_samples.write(f"{workpath}/{mils}M/prior_samples_{mils}M.hdf5", overwrite = True) #write out prior samples to research folder 
-		print("Priors saved to file")
+		prior_samples.write(f"{workpath}/prior_samples_{mils}M.hdf5", overwrite = True) #write out prior samples to research folder 
+		print("Priors saved to file!")
 	return
 
 if __name__ == "__main__":
