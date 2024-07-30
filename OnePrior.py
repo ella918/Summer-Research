@@ -19,7 +19,7 @@ import schwimmbad
 DATA_PATH = os.getenv("DATA_PATH", "/users/EllaMathews/Summer-Research/") #environment variable 
 jobid = os.getenv("SLURM_JOB_ID", "-9999")
 if jobid != "-9990":
-    workpath = "/scratch/ella_multstar/"
+    workpath = "/scratch/ella_oneprior/"
 else:
     workpath = DATA_PATH
 
