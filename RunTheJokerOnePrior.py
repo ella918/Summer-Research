@@ -20,7 +20,6 @@ if jobid != "-9990":
     workpath = "/scratch/ella_rerun/"
 else:
     workpath = DATA_PATH
-
 #random generator to ensure reproducibility
 rnd = np.random.default_rng(seed=42)
 
@@ -38,6 +37,8 @@ def RunTheJokerOnePrior(id_num, mpi, num_priors):
     if len(matched) == 0:
         print("No RV data for this ID")
         return
+
+    os.makedirs(f'{workpath}/{id_num}')
 
     t1 = Time(matched["DATE-OBS"], format = "fits", scale = "tcb")
     data = tj.RVData(t = t1, rv = matched['vrad']*(u.kilometer/u.second), rv_err = matched['vrad_err']*(u.kilometer/u.second)) 
@@ -68,7 +69,7 @@ def RunTheJokerOnePrior(id_num, mpi, num_priors):
         joker = tj.TheJoker(prior, rng=rnd) #creating instance of The Joker
         joker_samples = joker.rejection_sample(data, prior_samples, max_posterior_samples=256, return_logprobs=True) #creating rejection samples 
     print('rejection sample created')
-    joker_samples.write(f"{workpath}/{id_num}/rejection_samples_{mils}M_{id_num}.hdf5", overwrite = True) #writing out posterior samples (not MCMC)
+    joker_samples.write(f"{workpath}/{id_num}/rejection_samples_{mils}M.hdf5", overwrite = True) #writing out posterior samples (not MCMC)
     print('joker samples written out')
 
 
@@ -79,7 +80,7 @@ def RunTheJokerOnePrior(id_num, mpi, num_priors):
             mcmc_init = joker.setup_mcmc(data, joker_samples)
             trace = pm.sample(tune=500, draws=500, start=mcmc_init, chains=2)
         mcmc_samples = tj.JokerSamples.from_inference_data(prior, trace, data) #convert trace into jokersamples
-        mcmc_samples.write(f'{workpath}/{id_num}/rejection_samples_MCMC_{mils}M_{id_num}.hdf5', overwrite = True) #write out MCMC posterior samples 
+        mcmc_samples.write(f'{workpath}/{id_num}/rejection_samples_MCMC_{mils}M.hdf5', overwrite = True) #write out MCMC posterior samples 
     return 
 
 
