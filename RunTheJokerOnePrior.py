@@ -35,6 +35,9 @@ def RunTheJokerOnePrior(id_num, mpi, num_priors):
     datamatched6866 = new_6866[id_num == new_ids_6866]
     matched = vstack([datamatched6811, datamatched6866])
     print("Created matched")
+    if len(matched) == 0:
+        print("No RV data for this ID")
+        return
 
     t1 = Time(matched["DATE-OBS"], format = "fits", scale = "tcb")
     data = tj.RVData(t = t1, rv = matched['vrad']*(u.kilometer/u.second), rv_err = matched['vrad_err']*(u.kilometer/u.second)) 
