@@ -17,7 +17,7 @@ import schwimmbad
 DATA_PATH = os.getenv("DATA_PATH", "/users/EllaMathews/Summer-Research/") #environment variable 
 jobid = os.getenv("SLURM_JOB_ID", "-9999")
 if jobid != "-9990":
-    workpath = "/scratch/ella_multstar/"
+    workpath = "/scratch/ella_rerun/"
 else:
     workpath = DATA_PATH
 
@@ -47,7 +47,7 @@ def RunTheJokerOnePrior(id_num, mpi, num_priors):
         sigma_K0 = 30 * u.km / u.s,
         sigma_v = 100 * u.km / u.s,
     )
-    prior_samples = tj.JokerSamples.read(f'{DATA_PATH}/{mils}M/prior_samples_{mils}M.hdf5')
+    prior_samples = tj.JokerSamples.read(f'{workpath}/prior_samples_{mils}M.hdf5')
 
     if mpi is True: #multiprocessing
         with schwimmbad.MultiPool() as pool:
@@ -65,7 +65,7 @@ def RunTheJokerOnePrior(id_num, mpi, num_priors):
         joker = tj.TheJoker(prior, rng=rnd) #creating instance of The Joker
         joker_samples = joker.rejection_sample(data, prior_samples, max_posterior_samples=256, return_logprobs=True) #creating rejection samples 
     print('rejection sample created')
-    joker_samples.write(f"{workpath}/{mils}M/rejection_samples_{mils}M_{id_num}.hdf5", overwrite = True) #writing out posterior samples (not MCMC)
+    joker_samples.write(f"{workpath}/rejection_samples_{mils}M_{id_num}.hdf5", overwrite = True) #writing out posterior samples (not MCMC)
     print('joker samples written out')
 
 
@@ -76,7 +76,7 @@ def RunTheJokerOnePrior(id_num, mpi, num_priors):
             mcmc_init = joker.setup_mcmc(data, joker_samples)
             trace = pm.sample(tune=500, draws=500, start=mcmc_init, chains=2)
         mcmc_samples = tj.JokerSamples.from_inference_data(prior, trace, data) #convert trace into jokersamples
-        mcmc_samples.write(f'{workpath}/{mils}M/rejection_samples_MCMC_{mils}M_{id_num}.hdf5', overwrite = True) #write out MCMC posterior samples 
+        mcmc_samples.write(f'{workpath}/rejection_samples_MCMC_{mils}M_{id_num}.hdf5', overwrite = True) #write out MCMC posterior samples 
     return 
 
 
