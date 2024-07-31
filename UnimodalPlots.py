@@ -64,10 +64,10 @@ data_for_plots['e_upper'] = e_upper
 
 
 #plotting e vs P plot with uncertainties 
-x = data_for_plots['P_median']
-y = data_for_plots['e_median']
-asymmetric_error_x = [-data_for_plots['P_lower'], data_for_plots['P_upper']]
-asymmetric_error_y = [-data_for_plots['e_lower'], data_for_plots['e_upper']]
+x = P_median
+y = e_median
+asymmetric_error_x = [P_lower, P_upper]
+asymmetric_error_y = [e_lower, e_upper]
 fig, ax = plt.subplots()
 ax.errorbar(x, y, xerr = asymmetric_error_x, yerr = asymmetric_error_y)
 plt.scatter(x, y)
