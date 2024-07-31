@@ -22,7 +22,7 @@ P_upper = []
 e_median = []
 e_lower = []
 e_upper = []
-MAP = []
+#MAP = []
 
 for i in range(len(unimodal_table)):
 	if unimodal_table['unimodal'][i] == 1:
@@ -49,8 +49,8 @@ for i in range(len(unimodal_table)):
 		e_lower.append(e_median - e_16)
 		e_upper.append(e_84 - e_median)
 
-		Map = tj.MAP_sample(joker_samples)
-		MAP.append(Map)
+		#Map = tj.MAP_sample(joker_samples)
+		#MAP.append(Map)
 
 data_for_plots['id'] = ids
 data_for_plots['P_median'] = P_median
@@ -59,7 +59,7 @@ data_for_plots['P_upper'] = P_upper
 data_for_plots['e_median'] = e_median
 data_for_plots['e_lower'] = e_lower
 data_for_plots['e_upper'] = e_upper 
-data_for_plots['MAP'] = MAP 
+#data_for_plots['MAP'] = MAP 
 
 
 
