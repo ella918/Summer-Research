@@ -29,13 +29,13 @@ new_6811 = QTable.read(f'{workpath}/rcat_ngc6811_v0.fits')
 
 def RunTheJokerOnePrior(id_num, mpi, num_priors):
     new_ids_6811 = new_6811['GAIAEDR3_ID']
-    print(len(new_ids_6811))
+    #print(len(new_ids_6811))
     new_ids_6866 = new_6866['GAIAEDR3_ID']
-    print(len(new_ids_6866))
+    #print(len(new_ids_6866))
     datamatched6811 = new_6811[id_num == new_ids_6811]
-    print(len(datamatched6811))
+    #print(len(datamatched6811))
     datamatched6866 = new_6866[id_num == new_ids_6866]
-    print(len(datamatched6866))
+    #print(len(datamatched6866))
     matched = vstack([datamatched6811, datamatched6866])
     print(len(matched))
     print("Created matched")
@@ -54,7 +54,7 @@ def RunTheJokerOnePrior(id_num, mpi, num_priors):
         sigma_K0 = 30 * u.km / u.s,
         sigma_v = 100 * u.km / u.s,
     )
-    print(f'{workpath}prior_samples_{mils}M.hdf5')
+    #print(f'{workpath}prior_samples_{mils}M.hdf5')
     prior_samples = tj.JokerSamples.read(f'{workpath}prior_samples_50M.hdf5')
 
     if mpi is True: #multiprocessing
