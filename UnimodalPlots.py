@@ -37,26 +37,26 @@ for i in range(len(unimodal_table)):
 			MCMC.append(1)
 
 		p_median = np.percentile(joker_samples['P'], 50)
-		p_median_int = np.int64(p_median)
+		print(p_median)
 		p_16 = np.percentile(joker_samples['P'], 16)
-		p_16_int = np.int64(p_16)
+		print(p_16)
 		p_84 = np.percentile(joker_samples['P'], 84)
-		p_84_int = np.int64(p_84)
+		print(p_84)
 
 		e_median1 = np.percentile(joker_samples['e'], 50)
-		e_median_int = np.int64(e_median1)
+		print(e_median1)
 		e_16 = np.percentile(joker_samples['e'], 16)
-		e_16_int = np.int64(e_16)
+		print(e_16)
 		e_84 = np.percentile(joker_samples['e'], 84)
-		e_84_int = np.int64(e_84)
+		print(e_84)
 
-		P_median.append(p_median_int)
-		P_lower.append(p_median_int - p_16_int)
-		P_upper.append(p_84_int - p_median_int)
+		P_median.append(p_median)
+		P_lower.append(p_median - p_16)
+		P_upper.append(p_84 - p_median)
 
-		e_median.append(e_median_int)
-		e_lower.append(e_median_int - e_16_int)
-		e_upper.append(e_84_int - e_median_int)
+		e_median.append(e_median1)
+		e_lower.append(e_median - e_16)
+		e_upper.append(e_84 - e_median)
 
 		#Map = tj.MAP_sample(joker_samples)
 		#MAP.append(Map)
@@ -79,9 +79,9 @@ data_for_plots.write('data_for_unimodal_plots.csv', format = 'csv', overwrite = 
 fig, ax = plt.subplots()
 x = data_for_plots['P_median']
 y = data_for_plots['e_median']
-#asymmetric_error_x = [P_lower, P_upper]
-#asymmetric_error_y = [e_lower, e_upper]
-#ax.errorbar(x, y, xerr = asymmetric_error_x, yerr = asymmetric_error_y)
+asymmetric_error_x = [P_lower, P_upper]
+asymmetric_error_y = [e_lower, e_upper]
+ax.errorbar(x, y, xerr = asymmetric_error_x, yerr = asymmetric_error_y)
 plt.scatter(x, y)
 plt.show()
 plt.savefig('Unimodal_Plots')
