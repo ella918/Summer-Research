@@ -37,7 +37,7 @@ for i in range(len(unimodal_table)):
 		p_16 = np.percentile(joker_samples['P'], 16)
 		p_84 = np.percentile(joker_samples['P'], 84)
 
-		e_median = np.percentile(joker_samples['e'], 50)
+		e_median1 = np.percentile(joker_samples['e'], 50)
 		e_16 = np.percentile(joker_samples['e'], 16)
 		e_84 = np.percentile(joker_samples['e'], 84)
 
@@ -45,7 +45,7 @@ for i in range(len(unimodal_table)):
 		P_lower.append(p_median - p_16)
 		P_upper.append(p_84 - p_median)
 
-		e_median.append(e_median)
+		e_median.append(e_median1)
 		e_lower.append(e_median - e_16)
 		e_upper.append(e_84 - e_median)
 
