@@ -48,13 +48,14 @@ def RunTheJokerOnePrior(id_num, mpi, num_priors):
     print('created RV data object')
 
     mils = num_priors/1000000
+    print('mils')
     prior = tj.JokerPrior.default( #initializing the default prior
         P_min = 2 * u.day,
         P_max = 1e3 * u.day,
         sigma_K0 = 30 * u.km / u.s,
         sigma_v = 100 * u.km / u.s,
     )
-    #print(f'{workpath}prior_samples_{mils}M.hdf5')
+    print(f'{workpath}prior_samples_50M.hdf5')
     prior_samples = tj.JokerSamples.read(f'{workpath}prior_samples_50M.hdf5')
 
     if mpi is True: #multiprocessing
