@@ -11,7 +11,7 @@ import os
 
 workpath = '/data2/labs/douglste-laf-lab/mathewea/TheJoker_Outputs' #might have to change this 
 
-unimodal_table = Table.read('/data2/labs/douglste-laf-lab/mathewea/unimodalcheck.csv')
+unimodal_table = Table.read('/data2/labs/douglste-laf-lab/mathewea/Summer-Research/unimodalcheck.csv')
 
 
 data_for_plots = Table()
