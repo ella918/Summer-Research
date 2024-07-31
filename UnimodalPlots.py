@@ -36,7 +36,7 @@ for i in range(len(unimodal_table)):
 		p_median = np.percentile(joker_samples['P'], 50)
 		p_median_int = np.int64(p_median)
 		p_16 = np.percentile(joker_samples['P'], 16)
-		P_16_int = np.int64(p_16)
+		p_16_int = np.int64(p_16)
 		p_84 = np.percentile(joker_samples['P'], 84)
 		p_84_int = np.int64(p_84)
 
