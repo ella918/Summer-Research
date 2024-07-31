@@ -22,6 +22,7 @@ P_upper = []
 e_median = []
 e_lower = []
 e_upper = []
+MCMC = []
 #MAP = []
 
 for i in range(len(unimodal_table)):
@@ -30,8 +31,10 @@ for i in range(len(unimodal_table)):
 		ids.append(idnum)
 		if unimodal_table['MCMC'][i] == 0:
 			joker_samples = tj.JokerSamples.read(f'{workpath}/{idnum}/rejection_samples_{idnum}.hdf5')
+			MCMC.append(0)
 		if unimodal_table['MCMC'][i] == 1:
 			joker_samples = tj.JokerSamples.read(f'{workpath}/{idnum}/rejection_samples_MCMC_{idnum}.hdf5')
+			MCMC.append(1)
 
 		p_median = np.percentile(joker_samples['P'], 50)
 		p_median_int = np.int64(p_median)
@@ -59,6 +62,7 @@ for i in range(len(unimodal_table)):
 		#MAP.append(Map)
 
 data_for_plots['id'] = ids
+data_for_plots['MCMC'] = MCMC
 data_for_plots['P_median'] = P_median
 data_for_plots['P_lower'] = P_lower
 data_for_plots['P_upper'] = P_upper 
@@ -66,6 +70,8 @@ data_for_plots['e_median'] = e_median
 data_for_plots['e_lower'] = e_lower
 data_for_plots['e_upper'] = e_upper 
 #data_for_plots['MAP'] = MAP 
+
+data_for_plots.write('data_for_unimodal_plots.csv', format = 'csv', overwrite = True)
 
 
 
