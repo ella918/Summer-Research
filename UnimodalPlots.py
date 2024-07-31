@@ -14,7 +14,7 @@ workpath = '/data2/labs/douglste-laf-lab/mathewea/TheJoker_Outputs' #might have 
 unimodal_table = Table.read('/data2/labs/douglste-laf-lab/mathewea/Summer-Research/unimodalcheck.csv')
 
 
-data_for_plots = Table()
+data_for_plots = QTable()
 ids = []
 P_median = []
 P_lower = []
@@ -72,7 +72,7 @@ data_for_plots['e_upper'] = e_upper
 #data_for_plots['MAP'] = MAP 
 
 data_for_plots.write('data_for_unimodal_plots.csv', format = 'csv', overwrite = True)
-
+print('made table')
 
 
 #plotting e vs P plot with uncertainties 
@@ -85,7 +85,7 @@ ax.errorbar(x, y, xerr = asymmetric_error_x, yerr = asymmetric_error_y)
 plt.scatter(x, y)
 plt.show()
 plt.savefig('Unimodal_Plots')
-
+print('made plot')
 
 
 
