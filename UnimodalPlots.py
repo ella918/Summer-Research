@@ -4,9 +4,9 @@ import matplotlib.pyplot as plt
 import numpy as np 
 import thejoker as tj
 import h5py 
-from astopy.table import QTable, Table, Column 
+from astropy.table import QTable, Table, Column 
 from astropy.time import Time
-from astropy.visualization.units import quanitity_support 
+from astropy.visualization.units import quantity_support 
 import os 
 
 workpath = '/data2/labs/douglste-laf-lab/mathewea/TheJoker_Outputs' #might have to change this 
