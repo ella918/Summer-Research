@@ -73,9 +73,9 @@ data_for_plots['e_upper'] = e_upper
 fig, ax = plt.subplots()
 x = data_for_plots['P_median']
 y = data_for_plots['e_median']
-asymmetric_error_x = [P_lower, P_upper]
-asymmetric_error_y = [e_lower, e_upper]
-ax.errorbar(x, y, xerr = asymmetric_error_x, yerr = asymmetric_error_y)
+#asymmetric_error_x = [P_lower, P_upper]
+#asymmetric_error_y = [e_lower, e_upper]
+#ax.errorbar(x, y, xerr = asymmetric_error_x, yerr = asymmetric_error_y)
 plt.scatter(x, y)
 plt.show()
 plt.savefig('Unimodal_Plots')
