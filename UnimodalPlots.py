@@ -76,12 +76,12 @@ print('made table')
 
 
 #plotting e vs P plot with uncertainties 
-fig, ax = plt.subplots()
+fig, axes = plt.subplots()
 x = data_for_plots['P_median']
 y = data_for_plots['e_median']
 asymmetric_error_x = np.array([np.array(data_for_plots['P_lower']), np.array(data_for_plots['P_upper'])])
 asymmetric_error_y = np.array([np.array(data_for_plots['e_lower']), np.array(data_for_plots['e_upper'])])
-ax.errorbar(x, y, xerr = asymmetric_error_x, yerr = asymmetric_error_y
+ax.errorbar(x, y, xerr = asymmetric_error_x, yerr = asymmetric_error_y)
 ax.scatter(x, y)
 ax.x_label('P (d)')
 ax.y_label('e')
