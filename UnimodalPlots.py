@@ -37,18 +37,18 @@ for i in range(len(unimodal_table)):
 			MCMC.append(1)
 
 		p_median = np.percentile(joker_samples['P'], 50)
-		print(p_median)
+		#print(p_median)
 		p_16 = np.percentile(joker_samples['P'], 16)
-		print(p_16)
+		#print(p_16)
 		p_84 = np.percentile(joker_samples['P'], 84)
-		print(p_84)
+		#print(p_84)
 
 		e_median1 = np.percentile(joker_samples['e'], 50)
-		print(e_median1)
+		#print(e_median1)
 		e_16 = np.percentile(joker_samples['e'], 16)
-		print(e_16)
+		#print(e_16)
 		e_84 = np.percentile(joker_samples['e'], 84)
-		print(e_84)
+		#print(e_84)
 
 		P_median.append(p_median)
 		P_lower.append(p_median - p_16)
@@ -80,9 +80,8 @@ fig, ax = plt.subplots()
 x = data_for_plots['P_median']
 y = data_for_plots['e_median']
 asymmetric_error_x = np.array([data_for_plots['P_lower'], data_for_plots['P_upper']])
-print(asymmetric_error_x.size())
-#asymmetric_error_y = [data_for_plots['e_lower'], data_for_plots['e_upper']]
-#ax.errorbar(x, y, xerr = asymmetric_error_x.all(), yerr = asymmetric_error_y.all())
+asymmetric_error_y = np.array([data_for_plots['e_lower'], data_for_plots['e_upper']])
+ax.errorbar(x, y, xerr = asymmetric_error_x.all(), yerr = asymmetric_error_y.all())
 plt.scatter(x, y)
 plt.x_label('P (d)')
 plt.y_label('e')
