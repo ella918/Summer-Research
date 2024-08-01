@@ -1,7 +1,7 @@
 import thejoker as tj
 import astropy.table as at
 import astropy.units as u
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 # import numpy as np
 # import h5py
 # import thejoker as tj
