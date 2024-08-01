@@ -83,10 +83,10 @@ asymmetric_error_x = np.array([np.array(data_for_plots['P_lower']), np.array(dat
 asymmetric_error_y = np.array([np.array(data_for_plots['e_lower']), np.array(data_for_plots['e_upper'])])
 ax.errorbar(x, y, xerr = asymmetric_error_x, yerr = asymmetric_error_y
 #plt.scatter(x, y)
-plt.x_label('P (d)')
-plt.y_label('e')
-plt.title('e vs P for Unimodal Stars in ngc6811 and ngc6866')
-plt.show()
+#plt.x_label('P (d)')
+#plt.y_label('e')
+#plt.title('e vs P for Unimodal Stars in ngc6811 and ngc6866')
+#plt.show()
 plt.savefig('Unimodal_Plots')
 print('made plot')
 
