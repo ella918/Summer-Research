@@ -25,10 +25,11 @@ rnd = np.random.default_rng(seed=42)
 new_6866 = QTable.read('/data2/labs/douglste-laf-lab/mathewea/rcat_ngc6866_v0.fits')
 new_6811 = QTable.read('/data2/labs/douglste-laf-lab/mathewea/rcat_ngc6811_v0.fits')
 unimodal_table = QTable.read('/data2/labs/douglste-laf-lab/mathewea/Summer-Research/unimodalcheck.csv')
+id_list = Table.read('/data2/labs/douglste-laf-lab/mathewea/Summer-Research/GAIADR3_IDs.csv')
 
 def PlotTheJoker(id_num):
-
-	if os.path.exists(f"{workpath}/{id_num}/prior_samples_10.0M_{id_num}.hdf5") == False: #checking if the joker has been run on this object already
+        print(id_num)
+        if os.path.exists(f"{workpath}/{id_num}/rejection_samples_{id_num}.hdf5") == False: #checking if the joker has been run on this object already
 		print("The Joker has not been run on this object yet.")
 		return
 	
@@ -101,7 +102,6 @@ def PlotTheJoker(id_num):
 	plt.close('all')
 	return
 
-for i in range(len(unimodal_table)):
-	if unimodal_table['unimodal'][i] == 1:
-		PlotTheJoker(unimodal_table['id'][i])
+for i in range(len(id_list)):
+	PlotTheJoker(id_list[i])
 
