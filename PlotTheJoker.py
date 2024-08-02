@@ -28,8 +28,8 @@ unimodal_table = QTable.read('/data2/labs/douglste-laf-lab/mathewea/Summer-Resea
 id_list = Table.read('/data2/labs/douglste-laf-lab/mathewea/Summer-Research/GAIADR3_IDs.csv')
 
 def PlotTheJoker(id_num):
-        print(id_num)
-        if os.path.exists(f"{workpath}/{id_num}/rejection_samples_{id_num}.hdf5") == False: #checking if the joker has been run on this object already
+    print(id_num)
+    if os.path.exists(f"{workpath}/{id_num}/rejection_samples_{id_num}.hdf5") == False: #checking if the joker has been run on this object already
 		print("The Joker has not been run on this object yet.")
 		return
 	
