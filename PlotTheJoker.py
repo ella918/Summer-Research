@@ -38,25 +38,21 @@ def PlotTheJoker(id_num):
 	#recreating the joker object to plot rv curves
 	new_ids_6811 = new_6811['GAIAEDR3_ID']
 	new_ids_6866 = new_6866['GAIAEDR3_ID']
-
 	datamatched6811 = new_6811[id_num == new_ids_6811]
 	datamatched6866 = new_6866[id_num == new_ids_6866]
-
 	matched = vstack([datamatched6811, datamatched6866])
 	t1 = Time(matched["DATE-OBS"], format = "fits", scale = "tcb")
 	data = tj.RVData(t = t1, rv = matched['vrad']*(u.kilometer/u.second), rv_err = matched['vrad_err']*(u.kilometer/u.second)) 
-
 	if len(matched) < 3:
 		print("LESS THAN 3 DATA POINTS SOMETHING IS WRONG")
 
-	#importing the outputs from running the joker (priors and  rejection samples)
+	#importing the outputs from running the joker (priors and  rejection samples
 	prior_samples = tj.JokerSamples.read(f"{workpath}/{id_num}/prior_samples_10.0M_{id_num}.hdf5")
 	joker_samples = tj.JokerSamples.read(f"{workpath}/{id_num}/rejection_samples_{id_num}.hdf5")
 	
 	#getting the lnk value to put on title
 	K = joker_samples['K']
 	K1st = np.percentile(K, 1)
-
 	fig1, ax1 = plt.subplots()
 	_ = tj.plot_rv_curves(joker_samples, data=data) #plotting RV curves from rejection sampler
 	plt.title(f"ID: {id_num}, K1%={K1st}")
