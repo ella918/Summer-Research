@@ -32,11 +32,7 @@ def PlotTheJoker(id_num):
     if os.path.exists(f"{workpath}/{id_num}/rejection_samples_{id_num}.hdf5") == False: #checking if the joker has been run on this object already
     	print("The Joker has not been run on this object yet.")
     	return
-	
-	#if os.path.exists(f"{workpath}/{id_num}/Plots") == False:
-	#	os.makedirs(f"{workpath}/{id_num}/Plots") #creating a plots folder 
-	#recreating the joker object to plot rv curves
-	new_ids_6811 = new_6811['GAIAEDR3_ID']
+    new_ids_6811 = new_6811['GAIAEDR3_ID']
 	new_ids_6866 = new_6866['GAIAEDR3_ID']
 	datamatched6811 = new_6811[id_num == new_ids_6811]
 	datamatched6866 = new_6866[id_num == new_ids_6866]
