@@ -94,5 +94,5 @@ def PlotTheJoker(id_num):
     return
 
 for i in range(len(id_list)):
-	PlotTheJoker(id_list[i])
+	PlotTheJoker(id_list['GAIAEDR3_ID'][i])
 
