@@ -55,8 +55,8 @@ for i in range(len(unimodal_table)):
 		P_upper.append(p_84 - p_median)
 
 		e_median.append(e_median1)
-		e_lower.append(e_median - e_16)
-		e_upper.append(e_84 - e_median)
+		e_lower.append(e_median1 - e_16)
+		e_upper.append(e_84 - e_median1)
 
 		#Map = tj.MAP_sample(joker_samples)
 		#MAP.append(Map)
@@ -76,20 +76,26 @@ print('made table')
 
 
 #plotting e vs P plot with uncertainties 
-fig, axes = plt.subplots()
-x = data_for_plots['P_median']
-y = data_for_plots['e_median']
+fig, ax = plt.subplots()
+x = np.array(data_for_plots['P_median'])
+y = np.array(data_for_plots['e_median'])
 asymmetric_error_x = np.array([np.array(data_for_plots['P_lower']), np.array(data_for_plots['P_upper'])])
+#print(asymmetric_error_x)
 asymmetric_error_y = np.array([np.array(data_for_plots['e_lower']), np.array(data_for_plots['e_upper'])])
-ax.errorbar(x, y, xerr = asymmetric_error_x, yerr = asymmetric_error_y)
-ax.scatter(x, y)
-ax.x_label('P (d)')
-ax.y_label('e')
+#print(asymmetric_error_y)
+ax.errorbar(x, y, xerr = asymmetric_error_x, yerr = asymmetric_error_y, fmt = 'o')
+ax.set_xlabel('P (d)')
+ax.set_xscale('log')
+ax.set_ylabel('e')
 ax.set_title('e vs P for Unimodal Stars in ngc6811 and ngc6866')
-ax.show()
-ax.savefig('Unimodal_Plots')
+plt.show()
+plt.savefig('Unimodal_Plots')
 print('made plot')
 
-
+for i in range(len(data_for_plots)):
+   if np.float64(data_for_plots['P_median'][i]) < 20:
+      print(data_for_plots['id'][i])
+      print(data_for_plots['P_median'][i])
+      print(data_for_plots['e_median'][i])
 
 
