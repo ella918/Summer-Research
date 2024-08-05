@@ -28,8 +28,8 @@ new_6866 = QTable.read(f'{workpath}/rcat_ngc6866_v0.fits')
 new_6811 = QTable.read(f'{workpath}/rcat_ngc6811_v0.fits')
 
 def RunTheJokerOnePrior(id_num, mpi, num_priors):
-    os.mkdir({workpath}{id_num})
-    
+    os.mkdir(f'{workpath}{id_num}')
+
     new_ids_6811 = new_6811['GAIAEDR3_ID']
     #print(len(new_ids_6811))
     new_ids_6866 = new_6866['GAIAEDR3_ID']
