@@ -9,10 +9,10 @@ from astropy.time import Time
 from astropy.visualization.units import quantity_support 
 import os 
 
-workpath = '/data2/labs/douglste-laf-lab/mathewea/TheJoker_Outputs' #might have to change this 
-
-unimodal_table = Table.read('/data2/labs/douglste-laf-lab/mathewea/Summer-Research/unimodalcheck.csv')
-
+# workpath = '/data2/labs/douglste-laf-lab/mathewea/TheJoker_Outputs' #might have to change this 
+workpath = '/data2/labs/douglste-laf-lab/mathewea/50.0M'
+#unimodal_table = Table.read('/data2/labs/douglste-laf-lab/mathewea/Summer-Research/unimodalcheck.csv')
+unimodal_table = Table.read('/data2/labs/douglste-laf-lab/mathewea/Summer-Research/unimodalcheck_rerun.csv')
 
 data_for_plots = QTable()
 ids = []
@@ -30,10 +30,10 @@ for i in range(len(unimodal_table)):
 		idnum = unimodal_table['id'][i]
 		ids.append(idnum)
 		if unimodal_table['MCMC'][i] == 0:
-			joker_samples = tj.JokerSamples.read(f'{workpath}/{idnum}/rejection_samples_{idnum}.hdf5')
+			joker_samples = tj.JokerSamples.read(f'{workpath}/{idnum}/rejection_samples_50M_{idnum}.hdf5')
 			MCMC.append(0)
 		if unimodal_table['MCMC'][i] == 1:
-			joker_samples = tj.JokerSamples.read(f'{workpath}/{idnum}/rejection_samples_MCMC_{idnum}.hdf5')
+			joker_samples = tj.JokerSamples.read(f'{workpath}/{idnum}/rejection_samples_MCMC_50M_{idnum}.hdf5')
 			MCMC.append(1)
 
 		p_median = np.percentile(joker_samples['P'], 50)
@@ -71,7 +71,7 @@ data_for_plots['e_lower'] = e_lower
 data_for_plots['e_upper'] = e_upper 
 #data_for_plots['MAP'] = MAP 
 
-data_for_plots.write('data_for_unimodal_plots.csv', format = 'csv', overwrite = True)
+data_for_plots.write('data_for_unimodal_plots_rerun.csv', format = 'csv', overwrite = True)
 print('made table')
 
 
