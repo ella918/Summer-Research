@@ -25,7 +25,7 @@ mcmc = []
 num_samples = []
 unimodal = []
 #bimodal = []
-
+idlist.append(2075872941029111552, 2128018890577388672, 2128124963389008384, 2128145544872361984)
 for idnum in idlist['id']:
 	new_ids_6811 = new_6811['GAIAEDR3_ID']
 	new_ids_6866 = new_6866['GAIAEDR3_ID']
