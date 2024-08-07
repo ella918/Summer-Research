@@ -15,7 +15,7 @@ import os
 workpath = '/data2/labs/douglste-laf-lab/mathewea/50.0M'
 
 #idlist = QTable.read('/data2/labs/douglste-laf-lab/mathewea/Summer-Research/GAIADR3_IDs.csv')
-idlist = QTable.read('/data2/lab/douglste-laf-lab/mathewea/Summer-Research/rerunids.csv')
+idlist = QTable.read('/data2/labs/douglste-laf-lab/mathewea/Summer-Research/rerunids.csv')
 new_6866 = QTable.read('/data2/labs/douglste-laf-lab/mathewea/rcat_ngc6866_v0.fits')
 new_6811 = QTable.read('/data2/labs/douglste-laf-lab/mathewea/rcat_ngc6811_v0.fits')
 
