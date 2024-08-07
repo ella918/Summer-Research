@@ -30,10 +30,10 @@ for i in range(len(unimodal_table)):
 		idnum = unimodal_table['id'][i]
 		ids.append(idnum)
 		if unimodal_table['MCMC'][i] == 0:
-			joker_samples = tj.JokerSamples.read(f'{workpath}/{idnum}/rejection_samples_50M_{idnum}.hdf5')
+			joker_samples = tj.JokerSamples.read(f'{workpath}/{idnum}/rejection_samples_50.0M_{idnum}.hdf5')
 			MCMC.append(0)
 		if unimodal_table['MCMC'][i] == 1:
-			joker_samples = tj.JokerSamples.read(f'{workpath}/{idnum}/rejection_samples_MCMC_50M_{idnum}.hdf5')
+			joker_samples = tj.JokerSamples.read(f'{workpath}/{idnum}/rejection_samples_MCMC_50.0M_{idnum}.hdf5')
 			MCMC.append(1)
 
 		p_median = np.percentile(joker_samples['P'], 50)
