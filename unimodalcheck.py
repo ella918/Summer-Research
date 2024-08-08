@@ -25,40 +25,7 @@ mcmc = []
 num_samples = []
 unimodal = []
 #bimodal = []
-weirdids = [2075872941029111552, 2128018890577388672, 2128124963389008384, 2128145544872361984]
 for idnum in idlist['id']:
-	new_ids_6811 = new_6811['GAIAEDR3_ID']
-	new_ids_6866 = new_6866['GAIAEDR3_ID']
-	datamatched6811 = new_6811[idnum == new_ids_6811]
-	datamatched6866 = new_6866[idnum == new_ids_6866]
-	matched = vstack([datamatched6811, datamatched6866])
-	t1 = Time(matched["DATE-OBS"], format = "fits", scale = "tcb")
-	data = tj.RVData(t = t1, rv = matched['vrad']*(u.kilometer/u.second), rv_err = matched['vrad_err']*(u.kilometer/u.second))
-
-	if os.path.exists(f'{workpath}/{idnum}/rejection_samples_50.0M_{idnum}.hdf5'):
-		ids.append(idnum)
-		joker_samples = tj.JokerSamples.read(f'{workpath}/{idnum}/rejection_samples_50.0M_{idnum}.hdf5')
-		numsamples = len(joker_samples)
-		if os.path.exists(f'{workpath}/{idnum}/rejection_samples_MCMC_50.0M_{idnum}.hdf5'):
-			joker_samples = tj.JokerSamples.read(f'{workpath}/{idnum}/rejection_samples_MCMC_50.0M_{idnum}.hdf5')
-			numsamples = 0
-			mcmc_check = 1
-		else:
-			mcmc_check = 0
-		if tj.is_P_unimodal(joker_samples, data):
-			uni = 1
-		else:
-			uni = 0
-		#if tj.is_P_Kmodal(joker_samples, data, 2):
-		#	bi = 1
-		#else:
-		#	bi = 0 
-		num_samples.append(numsamples)
-		mcmc.append(mcmc_check)
-		unimodal.append(uni)
-		#bimodal.append(bi)
-
-for idnum in weirdids:
 	new_ids_6811 = new_6811['GAIAEDR3_ID']
 	new_ids_6866 = new_6866['GAIAEDR3_ID']
 	datamatched6811 = new_6811[idnum == new_ids_6811]
@@ -134,7 +101,7 @@ datatable['unimodal'] = unimodal
 ReRunTable = Table()
 rerunids = []
 
-datatable.write('unimodalcheck_rerun.csv', format = 'csv', overwrite = True)
+datatable.write('unimodalcheck_reranids.csv', format = 'csv', overwrite = True)
 
 # for i in range(len(datatable)):
 # 	if datatable['MCMC'][i] == 0 and datatable['num_samples'][i] < 256:
