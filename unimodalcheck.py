@@ -39,7 +39,7 @@ for idnum in idlist['id']:
 		ids.append(idnum)
 		joker_samples = tj.JokerSamples.read(f'{workpath}/{idnum}/rejection_samples_50.0M_{idnum}.hdf5')
 		numsamples = len(joker_samples)
-		if os.path.exists(f'{workpath}/{idnum}/rejection_samples_MCMC_{idnum}.hdf5'):
+		if os.path.exists(f'{workpath}/{idnum}/rejection_samples_MCMC_50.0M_{idnum}.hdf5'):
 			joker_samples = tj.JokerSamples.read(f'{workpath}/{idnum}/rejection_samples_MCMC_50.0M_{idnum}.hdf5')
 			numsamples = 0
 			mcmc_check = 1
