@@ -79,6 +79,7 @@ def RunTheJokerOnePrior(id_num, mpi, num_priors):
     print('rejection sample created')
     joker_samples.write(f"{workpath}{id_num}/rejection_samples_{mils}M_{id_num}.hdf5", overwrite = True) #writing out posterior samples (not MCMC)
     print('joker samples written out')
+    print(len(joker_samples), 'samples')
 
 
     if len(joker_samples) == 1: 
