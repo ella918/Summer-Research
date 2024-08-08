@@ -33,14 +33,18 @@ for i in range(len(unimodal_table2)):
 			if os.path.exists(f'{workpath2}/{idnum}/rejection_samples_50.0M_{idnum}.hdf5'):
 				joker_samples = tj.JokerSamples.read(f'{workpath2}/{idnum}/rejection_samples_50.0M_{idnum}.hdf5')
 				
-			else if os.path.exists(f'{workpath1}/{idnum}/rejection_samples_{idnum}.hdf5'):
+			elif os.path.exists(f'{workpath1}/{idnum}/rejection_samples_{idnum}.hdf5'):
 				joker_samples = tj.JokerSamples.read(f'{workpath1}/{idnum}/rejection_samples_{idnum}.hdf5')
+			
 			MCMC.append(0)
+
 		if unimodal_table2['MCMC'][i] == 1:
 			if os.path.exists(f'{workpath2}/{idnum}/rejection_samples_MCMC_50.0M_{idnum}.hdf5'):
 				joker_samples = tj.JokerSamples.read(f'{workpath2}/{idnum}/rejection_samples_MCMC_50.0M_{idnum}.hdf5')
-			else if: os.path.exists(f'{workpath2}/{idnum}/rejection_samples_MCMC_50.0M_{idnum}.hdf5'):
+
+			elif os.path.exists(f'{workpath1}/{idnum}/rejection_samples_MCMC_{idnum}.hdf5'):
 				joker_samples = tj.JokerSamples.read(f'{workpath1}/{idnum}/rejection_samples_MCMC_{idnum}.hdf5')
+			
 			MCMC.append(1)
 
 		p_median = np.percentile(joker_samples['P'], 50)
