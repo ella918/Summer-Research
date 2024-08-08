@@ -126,7 +126,7 @@ ax.set_xscale('log')
 ax.set_ylabel('e')
 ax.set_title('e vs P for Unimodal Stars in ngc6811 and ngc6866')
 plt.show()
-plt.savefig('Unimodal_Plots')
+plt.savefig('Unimodal_Plots_alldata')
 print('made plot')
 
 for i in range(len(data_for_plots)):
