@@ -11,7 +11,7 @@ import os
 
 workpath1 = '/data2/labs/douglste-laf-lab/mathewea/TheJoker_Outputs' #might have to change this 
 workpath2 = '/data2/labs/douglste-laf-lab/mathewea/50.0M'
-# unimodal_table1 = Table.read('/data2/labs/douglste-laf-lab/mathewea/Summer-Research/unimodalcheck.csv')
+unimodal_table1 = Table.read('/data2/labs/douglste-laf-lab/mathewea/Summer-Research/unimodalcheck.csv')
 unimodal_table2 = Table.read('/data2/labs/douglste-laf-lab/mathewea/Summer-Research/unimodalcheck_rerun.csv')
 
 data_for_plots = QTable()
@@ -30,21 +30,11 @@ for i in range(len(unimodal_table2)):
 		idnum = unimodal_table2['id'][i]
 		ids.append(idnum)
 		if unimodal_table2['MCMC'][i] == 0:
-			if os.path.exists(f'{workpath2}/{idnum}/rejection_samples_50.0M_{idnum}.hdf5'):
-				joker_samples = tj.JokerSamples.read(f'{workpath2}/{idnum}/rejection_samples_50.0M_{idnum}.hdf5')
-				
-			elif os.path.exists(f'{workpath1}/{idnum}/rejection_samples_{idnum}.hdf5'):
-				joker_samples = tj.JokerSamples.read(f'{workpath1}/{idnum}/rejection_samples_{idnum}.hdf5')
-			
+			joker_samples = tj.JokerSamples.read(f'{workpath2}/{idnum}/rejection_samples_50.0M_{idnum}.hdf5')
 			MCMC.append(0)
 
 		if unimodal_table2['MCMC'][i] == 1:
-			if os.path.exists(f'{workpath2}/{idnum}/rejection_samples_MCMC_50.0M_{idnum}.hdf5'):
-				joker_samples = tj.JokerSamples.read(f'{workpath2}/{idnum}/rejection_samples_MCMC_50.0M_{idnum}.hdf5')
-
-			elif os.path.exists(f'{workpath1}/{idnum}/rejection_samples_MCMC_{idnum}.hdf5'):
-				joker_samples = tj.JokerSamples.read(f'{workpath1}/{idnum}/rejection_samples_MCMC_{idnum}.hdf5')
-			
+			joker_samples = tj.JokerSamples.read(f'{workpath2}/{idnum}/rejection_samples_MCMC_50.0M_{idnum}.hdf5')
 			MCMC.append(1)
 
 		p_median = np.percentile(joker_samples['P'], 50)
@@ -72,41 +62,41 @@ for i in range(len(unimodal_table2)):
 		#Map = tj.MAP_sample(joker_samples)
 		#MAP.append(Map)
 
-# for i in range(len(unimodal_table1)):
-# 	if unimodal_table1['id'][i] in ids:
-# 		continue
+for i in range(len(unimodal_table1)):
+	if unimodal_table1['id'][i] in ids:
+		continue
 
-# 	if unimodal_table1['unimodal'][i] == 1:
-# 		idnum = unimodal_table1['id'][i]
-# 		ids.append(idnum)
-# 		if unimodal_table1['MCMC'][i] == 0:
-# 			joker_samples = tj.JokerSamples.read(f'{workpath1}/{idnum}/rejection_samples_{idnum}.hdf5')
-# 			MCMC.append(0)
-# 		if unimodal_table1['MCMC'][i] == 1:
-# 			joker_samples = tj.JokerSamples.read(f'{workpath1}/{idnum}/rejection_samples_MCMC_{idnum}.hdf5')
-# 			MCMC.append(1)
+	if unimodal_table1['unimodal'][i] == 1:
+		idnum = unimodal_table1['id'][i]
+		ids.append(idnum)
+		if unimodal_table1['MCMC'][i] == 0:
+			joker_samples = tj.JokerSamples.read(f'{workpath1}/{idnum}/rejection_samples_{idnum}.hdf5')
+			MCMC.append(0)
+		if unimodal_table1['MCMC'][i] == 1:
+			joker_samples = tj.JokerSamples.read(f'{workpath1}/{idnum}/rejection_samples_MCMC_{idnum}.hdf5')
+			MCMC.append(1)
 
-# 		p_median = np.percentile(joker_samples['P'], 50)
-# 		#print(p_median)
-# 		p_16 = np.percentile(joker_samples['P'], 16)
-# 		#print(p_16)
-# 		p_84 = np.percentile(joker_samples['P'], 84)
-# 		#print(p_84)
+		p_median = np.percentile(joker_samples['P'], 50)
+		#print(p_median)
+		p_16 = np.percentile(joker_samples['P'], 16)
+		#print(p_16)
+		p_84 = np.percentile(joker_samples['P'], 84)
+		#print(p_84)
 
-# 		e_median1 = np.percentile(joker_samples['e'], 50)
-# 		#print(e_median1)
-# 		e_16 = np.percentile(joker_samples['e'], 16)
-# 		#print(e_16)
-# 		e_84 = np.percentile(joker_samples['e'], 84)
-# 		#print(e_84)
+		e_median1 = np.percentile(joker_samples['e'], 50)
+		#print(e_median1)
+		e_16 = np.percentile(joker_samples['e'], 16)
+		#print(e_16)
+		e_84 = np.percentile(joker_samples['e'], 84)
+		#print(e_84)
 
-# 		P_median.append(p_median)
-# 		P_lower.append(p_median - p_16)
-# 		P_upper.append(p_84 - p_median)
+		P_median.append(p_median)
+		P_lower.append(p_median - p_16)
+		P_upper.append(p_84 - p_median)
 
-# 		e_median.append(e_median1)
-# 		e_lower.append(e_median1 - e_16)
-# 		e_upper.append(e_84 - e_median1)
+		e_median.append(e_median1)
+		e_lower.append(e_median1 - e_16)
+		e_upper.append(e_84 - e_median1)
 
 
 data_for_plots['id'] = ids
