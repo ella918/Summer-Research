@@ -46,8 +46,10 @@ for idnum in idlist2['GAIAEDR3_ID']:
 			mcmc_check = 0
 		if tj.is_P_unimodal(joker_samples, data):
 			uni = 1
+			print('unimodal')
 		else:
 			uni = 0
+			print('not unimodal')
 		#if tj.is_P_Kmodal(joker_samples, data, 2):
 		#	bi = 1
 		#else:
