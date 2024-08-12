@@ -36,6 +36,7 @@ for idnum in idlist2['GAIAEDR3_ID']:
 
 	if os.path.exists(f'{workpath2}/{idnum}/rejection_samples_{idnum}.hdf5'):
 		ids.append(idnum)
+		print(idnum)
 		joker_samples = tj.JokerSamples.read(f'{workpath2}/{idnum}/rejection_samples_{idnum}.hdf5')
 		numsamples = len(joker_samples)
 		if os.path.exists(f'{workpath2}/{idnum}/rejection_samples_MCMC_{idnum}.hdf5'):
@@ -57,6 +58,7 @@ for idnum in idlist2['GAIAEDR3_ID']:
 		num_samples.append(numsamples)
 		mcmc.append(mcmc_check)
 		unimodal.append(uni)
+		print(idnum[-1],num_samples[-1],mcmc[-1],unimodal[-1])
 		#bimodal.append(bi)
 
 datatable['id'] = ids
