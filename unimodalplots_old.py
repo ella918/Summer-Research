@@ -1,4 +1,4 @@
- import astropy.table as astropy
+import astropy.table as astropy
 import astropy.units as u
 import matplotlib.pyplot as plt 
 import numpy as np 
