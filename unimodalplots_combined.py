@@ -63,8 +63,6 @@ for i in range(len(unimodal_table2)):
 		#MAP.append(Map)
 
 for i in range(len(unimodal_table1)):
-	if unimodal_table1['id'][i] in ids:
-		continue
 
 	if unimodal_table1['unimodal'][i] == 1:
 		idnum = unimodal_table1['id'][i]
@@ -109,7 +107,7 @@ data_for_plots['e_lower'] = e_lower
 data_for_plots['e_upper'] = e_upper 
 # #data_for_plots['MAP'] = MAP 
 
-data_for_plots.write('data_for_unimodal_plots_alldata.csv', format = 'csv', overwrite = True)
+data_for_plots.write('data_for_unimodal_plots_combined.csv', format = 'csv', overwrite = True)
 print('made table')
 
 
