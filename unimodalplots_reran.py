@@ -11,7 +11,7 @@ import os
 
 
 workpath2 = '/data2/labs/douglste-laf-lab/mathewea/50.0M'
-unimodal_table2 = Table.read('/data2/labs/douglste-laf-lab/mathewea/Summer-Research/unimodalcheck_rerun.csv')
+unimodal_table2 = Table.read('/data2/labs/douglste-laf-lab/mathewea/Summer-Research/unimodalcheck_reranids.csv')
 
 data_for_plots = QTable()
 ids = []
