@@ -45,7 +45,7 @@ def CreatePriors(num_priors):
 
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser()
-	parser.add_argument('--prior', help = 'num of prior samp default 200000000', type = int, default = 200000000)
+	parser.add_argument('--prior', help = 'num of prior samp default 250000000', type = int, default = 250000000)
 	args = parser.parse_args()
 	print('args')
 
