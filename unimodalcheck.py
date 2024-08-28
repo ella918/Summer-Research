@@ -25,6 +25,7 @@ mcmc = []
 num_samples = []
 unimodal = []
 #bimodal = []
+numRVs = []
 
 for idnum in idlist['id']:
 	new_ids_6811 = new_6811['GAIAEDR3_ID']
@@ -32,6 +33,8 @@ for idnum in idlist['id']:
 	datamatched6811 = new_6811[idnum == new_ids_6811]
 	datamatched6866 = new_6866[idnum == new_ids_6866]
 	matched = vstack([datamatched6811, datamatched6866])
+	RV = len(matched)
+	numRVs.append(RV)
 	t1 = Time(matched["DATE-OBS"], format = "fits", scale = "tcb")
 	data = tj.RVData(t = t1, rv = matched['vrad']*(u.kilometer/u.second), rv_err = matched['vrad_err']*(u.kilometer/u.second))
 
@@ -94,13 +97,14 @@ for idnum in idlist2['GAIAEDR3_ID']:
 		#bimodal.append(bi)
 
 datatable['id'] = ids
+datatable['num_RV'] = numRVs
 datatable['num_samples'] = num_samples
 datatable['MCMC'] = mcmc
 datatable['unimodal'] = unimodal
 #datatable['bimodal'] = bimodal
 
-ReRunTable = Table()
-rerunids = []
+# ReRunTable = Table()
+# rerunids = []
 
 datatable.write('unimodalcheck_alldata.csv', format = 'csv', overwrite = True)
 
