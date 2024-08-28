@@ -72,6 +72,7 @@ for idnum in idlist2['GAIAEDR3_ID']:
 	matched = vstack([datamatched6811, datamatched6866])
 	t1 = Time(matched["DATE-OBS"], format = "fits", scale = "tcb")
 	data = tj.RVData(t = t1, rv = matched['vrad']*(u.kilometer/u.second), rv_err = matched['vrad_err']*(u.kilometer/u.second))
+	RV = len(matched)
 
 	if os.path.exists(f'{workpath2}/{idnum}/rejection_samples_{idnum}.hdf5'):
 		ids.append(idnum)
@@ -92,6 +93,7 @@ for idnum in idlist2['GAIAEDR3_ID']:
 		#else:
 		#	bi = 0 
 		num_samples.append(numsamples)
+		numRVs.append(RV)
 		mcmc.append(mcmc_check)
 		unimodal.append(uni)
 		#bimodal.append(bi)
