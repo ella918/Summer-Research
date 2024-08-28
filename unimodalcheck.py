@@ -34,7 +34,6 @@ for idnum in idlist['id']:
 	datamatched6866 = new_6866[idnum == new_ids_6866]
 	matched = vstack([datamatched6811, datamatched6866])
 	RV = len(matched)
-	numRVs.append(RV)
 	t1 = Time(matched["DATE-OBS"], format = "fits", scale = "tcb")
 	data = tj.RVData(t = t1, rv = matched['vrad']*(u.kilometer/u.second), rv_err = matched['vrad_err']*(u.kilometer/u.second))
 
@@ -57,6 +56,7 @@ for idnum in idlist['id']:
 		#else:
 		#	bi = 0 
 		num_samples.append(numsamples)
+		numRVs.append(RV)
 		mcmc.append(mcmc_check)
 		unimodal.append(uni)
 		#bimodal.append(bi)
