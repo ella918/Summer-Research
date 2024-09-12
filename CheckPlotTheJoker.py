@@ -43,7 +43,7 @@ def PlotTheJoker(id_num):
     	print("LESS THAN 3 DATA POINTS SOMETHING IS WRONG")
 
     #importing the outputs from running the joker (priors and  rejection samples
-    prior_samples = tj.JokerSamples.read(f"{workpath}/prior_samples_50M_{id_num}.hdf5")
+    prior_samples = tj.JokerSamples.read(f"{workpath}/prior_samples_50M.hdf5")
     joker_samples = tj.JokerSamples.read(f"{workpath}/{id_num}/rejection_samples_50.0M_{id_num}.hdf5")
 
     #getting the lnk value to put on title
