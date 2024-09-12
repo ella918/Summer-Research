@@ -24,7 +24,7 @@ workpath = '/data2/labs/douglste-laf-lab/mathewea/50.0M'
 rnd = np.random.default_rng(seed=42)
 new_6866 = QTable.read('/data2/labs/douglste-laf-lab/mathewea/rcat_ngc6866_v0.fits')
 new_6811 = QTable.read('/data2/labs/douglste-laf-lab/mathewea/rcat_ngc6811_v0.fits')
-unimodal_table = QTable.read('/data2/labs/douglste-laf-lab/mathewea/Summer-Research/unimodalcheck.csv')
+# unimodal_table = QTable.read('/data2/labs/douglste-laf-lab/mathewea/Summer-Research/unimodalcheck.csv')
 id_list = Table.read('/data2/labs/douglste-laf-lab/mathewea/Summer-Research/GAIADR3_IDs.csv')
 
 def PlotTheJoker(id_num):
