@@ -42,6 +42,9 @@ def PlotTheJoker(id_num):
     if len(matched) < 3:
     	print("LESS THAN 3 DATA POINTS SOMETHING IS WRONG")
 
+    rvplotnoline = data.plot()
+    rvplotnoline.savefig(f"{workpath}/RVvTime_{id_num}_new")
+
     #importing the outputs from running the joker (priors and  rejection samples
     prior_samples = tj.JokerSamples.read(f"{workpath}/prior_samples_50M.hdf5")
     joker_samples = tj.JokerSamples.read(f"{workpath}/{id_num}/rejection_samples_50.0M_{id_num}.hdf5")
