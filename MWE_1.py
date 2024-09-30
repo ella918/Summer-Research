@@ -75,8 +75,9 @@ def RunTheJokerOnePrior(id_num, mpi, num_priors):
         #MCMC with NUTS sampler 
         with prior.model:
             mcmc_init = joker.setup_mcmc(data, joker_samples)
-            trace = pm.sample(tune=500, draws=500, start=mcmc_init, chains=2)
+            trace = pm.sample(tune=500, draws=500, start=mcmc_init, chains=4)
         mcmc_samples = tj.JokerSamples.from_inference_data(prior, trace, data) #convert trace into jokersamples
+        print(az.summary(mcmc_samples));
         mcmc_samples.write(f'{workpath}{id_num}/rejection_samples_MCMC_{mils}M_{id_num}.hdf5', overwrite = True) #write out MCMC posterior samples 
     return 
 
