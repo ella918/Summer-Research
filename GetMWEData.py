@@ -2,7 +2,8 @@
 from astropy.table import QTable, vstack 
 
 id_num = 2128124963389008384
-
+DATA_PATH = os.getenv('DATA_PATH')
+workpath = f'/{DATA_PATH}/'
 new_6866 = QTable.read(f'{workpath}/rcat_ngc6866_v0.fits')
 new_6811 = QTable.read(f'{workpath}/rcat_ngc6811_v0.fits')
 new_ids_6811 = new_6811['GAIAEDR3_ID']
