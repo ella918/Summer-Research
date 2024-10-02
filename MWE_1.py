@@ -54,7 +54,7 @@ if mpi is True: #multiprocessing
         except:
             print("failed")
             raise
-            return
+            
 else:
     pool = None
     joker = tj.TheJoker(prior, rng=rnd) #creating instance of The Joker
