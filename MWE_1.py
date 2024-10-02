@@ -22,6 +22,7 @@ rnd = np.random.default_rng(seed=42)
 
 #importing new data
 dataRV = QTable.read(f'{workpath}/MWE_RVData.csv')
+print('read in data')
 
 def RunTheJokerOnePrior(id_num, mpi, num_priors):
 
