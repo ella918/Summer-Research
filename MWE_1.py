@@ -20,10 +20,11 @@ if jobid != "-9990":
     workpath = "/scratch/ella_MWE/"
 else:
     workpath = DATA_PATH
+
 #random generator to ensure reproducibility
 rnd = np.random.default_rng(seed=42)
 
-#importing new data
+#importing new data  FIGURE OUT HOW TO JUST HARD CODE IN THE RV DATA FOR THE STAR
 new_6866 = QTable.read(f'{workpath}/rcat_ngc6866_v0.fits')
 new_6811 = QTable.read(f'{workpath}/rcat_ngc6811_v0.fits')
 
@@ -47,7 +48,8 @@ def RunTheJokerOnePrior(id_num, mpi, num_priors):
         sigma_K0 = 30 * u.km / u.s,
         sigma_v = 100 * u.km / u.s,
     )
-    prior_samples = tj.JokerSamples.read(f'{workpath}prior_samples_50M.hdf5')
+    prior_samples = prior.sample(size = num_priors, rng = rnd)
+    prior_samples.write(f'{workpath}{id_num}/prior_samples_{mils}M_{id_num}_MWE.hdf5', overwrite = True)
 
     if mpi is True: #multiprocessing
         with schwimmbad.MultiPool() as pool:
@@ -65,7 +67,7 @@ def RunTheJokerOnePrior(id_num, mpi, num_priors):
         joker = tj.TheJoker(prior, rng=rnd) #creating instance of The Joker
         joker_samples = joker.rejection_sample(data, prior_samples, max_posterior_samples=256, return_logprobs=True) #creating rejection samples 
     print('rejection sample created')
-    joker_samples.write(f"{workpath}{id_num}/rejection_samples_{mils}M_{id_num}.hdf5", overwrite = True) #writing out posterior samples (not MCMC)
+    joker_samples.write(f"{workpath}{id_num}/rejection_samples_{mils}M_{id_num}_MWE.hdf5", overwrite = True) #writing out posterior samples (not MCMC)
     print('joker samples written out')
     print(len(joker_samples), 'samples')
 
@@ -77,8 +79,10 @@ def RunTheJokerOnePrior(id_num, mpi, num_priors):
             mcmc_init = joker.setup_mcmc(data, joker_samples)
             trace = pm.sample(tune=500, draws=500, start=mcmc_init, chains=4)
         mcmc_samples = tj.JokerSamples.from_inference_data(prior, trace, data) #convert trace into jokersamples
-        print(az.summary(mcmc_samples));
-        mcmc_samples.write(f'{workpath}{id_num}/rejection_samples_MCMC_{mils}M_{id_num}.hdf5', overwrite = True) #write out MCMC posterior samples 
+        az.summary(trace, var_names=prior.par_names)
+        az.plot_trace(trace)
+        plt.savefig(f'{workpath}{id_num}/traceplot.png')
+        mcmc_samples.write(f'{workpath}{id_num}/rejection_samples_MCMC_{mils}M_{id_num}_MWE.hdf5', overwrite = True) #write out MCMC posterior samples 
     return 
 
     RunTheJokerOnePrior(2128124963389008384, True, 50000000)
