@@ -15,12 +15,13 @@ import os
 import schwimmbad
 
 DATA_PATH = os.getenv("DATA_PATH") 
+workpath = f'/{DATA_PATH}/Summer-Research/'
 
 #random generator to ensure reproducibility
 rnd = np.random.default_rng(seed=42)
 
 #importing new data
-dataRV = QTable.read(f'{DATA_PATH}/MWE_RVData.csv')
+dataRV = QTable.read(f'{workpath}/MWE_RVData.csv')
 
 def RunTheJokerOnePrior(id_num, mpi, num_priors):
 
@@ -73,4 +74,4 @@ def RunTheJokerOnePrior(id_num, mpi, num_priors):
         mcmc_samples.write(f'{DATA_PATH}/rejection_samples_MCMC_{mils}M_{id_num}_MWE.hdf5', overwrite = True) #write out MCMC posterior samples 
     return 
 
-    RunTheJokerOnePrior(2128124963389008384, True, 50000000)
+    RunTheJokerOnePrior(2128124963389008384, True, 50000)
