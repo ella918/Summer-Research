@@ -14,30 +14,18 @@ import argparse
 import os
 import schwimmbad
 
-DATA_PATH = os.getenv("DATA_PATH", "/users/EllaMathews/Summer-Research/") #environment variable 
-jobid = os.getenv("SLURM_JOB_ID", "-9999")
-if jobid != "-9990":
-    workpath = "/scratch/ella_MWE/"
-else:
-    workpath = DATA_PATH
+DATA_PATH = os.getenv("DATA_PATH") 
 
 #random generator to ensure reproducibility
 rnd = np.random.default_rng(seed=42)
 
-#importing new data  FIGURE OUT HOW TO JUST HARD CODE IN THE RV DATA FOR THE STAR
-new_6866 = QTable.read(f'{workpath}/rcat_ngc6866_v0.fits')
-new_6811 = QTable.read(f'{workpath}/rcat_ngc6811_v0.fits')
+#importing new data
+dataRV = QTable.read(f'{DATA_PATH}/MWE_RVData.csv')
 
 def RunTheJokerOnePrior(id_num, mpi, num_priors):
 
-    new_ids_6811 = new_6811['GAIAEDR3_ID']
-    new_ids_6866 = new_6866['GAIAEDR3_ID']
-    datamatched6811 = new_6811[id_num == new_ids_6811]
-    datamatched6866 = new_6866[id_num == new_ids_6866]
-    matched = vstack([datamatched6811, datamatched6866])
-
-    t1 = Time(matched["DATE-OBS"], format = "fits", scale = "tcb")
-    data = tj.RVData(t = t1, rv = matched['vrad']*(u.kilometer/u.second), rv_err = matched['vrad_err']*(u.kilometer/u.second)) 
+    t1 = Time(dataRV["DATE-OBS"], format = "csv", scale = "tcb")
+    data = tj.RVData(t = t1, rv = dataRV['vrad']*(u.kilometer/u.second), rv_err = dataRV['vrad_err']*(u.kilometer/u.second)) 
     print('created RV data object')
 
     mils = num_priors/1000000
@@ -49,7 +37,7 @@ def RunTheJokerOnePrior(id_num, mpi, num_priors):
         sigma_v = 100 * u.km / u.s,
     )
     prior_samples = prior.sample(size = num_priors, rng = rnd)
-    prior_samples.write(f'{workpath}{id_num}/prior_samples_{mils}M_{id_num}_MWE.hdf5', overwrite = True)
+    prior_samples.write(f'{DATA_PATH}/prior_samples_{mils}M_{id_num}_MWE.hdf5', overwrite = True)
 
     if mpi is True: #multiprocessing
         with schwimmbad.MultiPool() as pool:
@@ -67,7 +55,7 @@ def RunTheJokerOnePrior(id_num, mpi, num_priors):
         joker = tj.TheJoker(prior, rng=rnd) #creating instance of The Joker
         joker_samples = joker.rejection_sample(data, prior_samples, max_posterior_samples=256, return_logprobs=True) #creating rejection samples 
     print('rejection sample created')
-    joker_samples.write(f"{workpath}{id_num}/rejection_samples_{mils}M_{id_num}_MWE.hdf5", overwrite = True) #writing out posterior samples (not MCMC)
+    joker_samples.write(f"{DATA_PATH}/rejection_samples_{mils}M_{id_num}_MWE.hdf5", overwrite = True) #writing out posterior samples (not MCMC)
     print('joker samples written out')
     print(len(joker_samples), 'samples')
 
@@ -81,8 +69,8 @@ def RunTheJokerOnePrior(id_num, mpi, num_priors):
         mcmc_samples = tj.JokerSamples.from_inference_data(prior, trace, data) #convert trace into jokersamples
         az.summary(trace, var_names=prior.par_names)
         az.plot_trace(trace)
-        plt.savefig(f'{workpath}{id_num}/traceplot.png')
-        mcmc_samples.write(f'{workpath}{id_num}/rejection_samples_MCMC_{mils}M_{id_num}_MWE.hdf5', overwrite = True) #write out MCMC posterior samples 
+        plt.savefig(f'{DATA_PATH}/traceplot.png')
+        mcmc_samples.write(f'{DATA_PATH}/rejection_samples_MCMC_{mils}M_{id_num}_MWE.hdf5', overwrite = True) #write out MCMC posterior samples 
     return 
 
     RunTheJokerOnePrior(2128124963389008384, True, 50000000)
