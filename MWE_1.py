@@ -39,7 +39,7 @@ def RunTheJokerOnePrior(id_num, mpi, num_priors):
         sigma_K0 = 30 * u.km / u.s,
         sigma_v = 100 * u.km / u.s,
     )
-    prior_samples = prior.sample(size = num_priors, rng = rnd)
+    prior_samples = prior.sample(size = num_priors, rng = rnd, return_logprobs=True)
     prior_samples.write(f'{DATA_PATH}/prior_samples_{mils}M_{id_num}_MWE.hdf5', overwrite = True)
 
     if mpi is True: #multiprocessing
