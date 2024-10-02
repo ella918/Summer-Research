@@ -23,10 +23,11 @@ rnd = np.random.default_rng(seed=42)
 #importing new data
 dataRV = QTable.read(f'{workpath}/MWE_RVData.csv')
 print('read in data')
+print(dataRV["DATE-OBS"])
 
 def RunTheJokerOnePrior(id_num, mpi, num_priors):
 
-    t1 = Time(dataRV["DATE-OBS"], format = "csv", scale = "tcb")
+    t1 = Time(dataRV["DATE-OBS"], format = "isot", scale = "tcb")
     data = tj.RVData(t = t1, rv = dataRV['vrad']*(u.kilometer/u.second), rv_err = dataRV['vrad_err']*(u.kilometer/u.second)) 
     print('created RV data object')
 
@@ -75,4 +76,4 @@ def RunTheJokerOnePrior(id_num, mpi, num_priors):
         mcmc_samples.write(f'{DATA_PATH}/rejection_samples_MCMC_{mils}M_{id_num}_MWE.hdf5', overwrite = True) #write out MCMC posterior samples 
     return 
 
-    RunTheJokerOnePrior(2128124963389008384, True, 50000)
+RunTheJokerOnePrior(2128124963389008384, True, 50000)
