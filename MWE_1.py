@@ -71,7 +71,7 @@ def RunTheJokerOnePrior(id_num, mpi, num_priors):
             trace = pm.sample(tune=500, draws=500, start=mcmc_init, chains=4)
         mcmc_samples = tj.JokerSamples.from_inference_data(prior, trace, data) #convert trace into jokersamples
         az.summary(trace, var_names=prior.par_names)
-        az.plot_trace(trace, var_name = prior.par_names)
+        az.plot_trace(trace, var_names = prior.par_names)
         plt.savefig(f'{DATA_PATH}/traceplot.png')
         mcmc_samples.write(f'{DATA_PATH}/rejection_samples_MCMC_{mils}M_{id_num}_MWE.hdf5', overwrite = True) #write out MCMC posterior samples 
     return 
