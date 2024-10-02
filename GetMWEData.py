@@ -1,5 +1,6 @@
 
 from astropy.table import QTable, vstack 
+import os
 
 id_num = 2128124963389008384
 DATA_PATH = os.getenv('DATA_PATH')
