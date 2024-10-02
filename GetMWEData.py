@@ -15,4 +15,4 @@ matched = vstack([datamatched6811, datamatched6866])
 
 matched = matched["DATE-OBS","vrad","vrad_err"]
 
-matched.write('MWE_RVData.csv')
+matched.write('MWE_RVData.csv', overwrite = True)
