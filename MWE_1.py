@@ -80,7 +80,7 @@ if len(joker_samples) == 1:
 #PLOTTING THE DATA
 
 rvplotnoline = data.plot()
-plt.savefig(f"{DATA_PATH}/RVvTime_{mils}M_{id_num}_MWE")
+plt.savefig(f"{DATA_PATH}/RVvTime_{mils}M_{id_num}_MWE.png")
 
 #getting the lnk value to put on title
 K = joker_samples['K']
@@ -89,7 +89,7 @@ fig1, ax1 = plt.subplots()
 
 _ = tj.plot_rv_curves(joker_samples, data=data) #plotting RV curves from rejection sampler
 plt.title(f"ID: {id_num}, K1%={K1st}")
-fig1.savefig(f"{DATA_PATH}/RVCurves_{mils}M_{id_num}_MWE") #saving figure to plots folder in script output folder
+fig1.savefig(f"{DATA_PATH}/RVCurves_{mils}M_{id_num}_MWE.png") #saving figure to plots folder in script output folder
 print("RV curves plotted")
 
 #plotting period against eccentricity
@@ -103,7 +103,7 @@ ax2.set_xlabel("$P$ [day]")
 ax2.set_ylabel("$e$")
 plt.title(f"ID: {id_num}, K1%={K1st}")
 
-fig2.savefig(f"{DATA_PATH}/PeriodvsEccent_{mils}M_{id_num}_MWE") #saving figure to plots folder in script output  folder 
+fig2.savefig(f"{DATA_PATH}/PeriodvsEccent_{mils}M_{id_num}_MWE.png") #saving figure to plots folder in script output  folder 
 print("Period vs Eccentricity plotted")
 
 if len(joker_samples) == 1: 
@@ -111,7 +111,7 @@ if len(joker_samples) == 1:
     fig3, ax3 = plt.subplots()
     _ = tj.plot_rv_curves(mcmc_samples, data=data) #plotting RV curves from MCMC rejection sampler
     plt.title(f"ID: {id_num}, K1%={K1st}")
-    fig3.savefig(f"{DATA_PATH}/RVCurves_MCMC_{mils}M_{id_num}_MWE") #saving figure to plots folder in script output  folder
+    fig3.savefig(f"{DATA_PATH}/RVCurves_MCMC_{mils}M_{id_num}_MWE.png") #saving figure to plots folder in script output  folder
     print("RV curves from MCMC plotted")
 
     #plotting period vs eccentricity
@@ -124,6 +124,6 @@ if len(joker_samples) == 1:
     ax4.set_xlabel("$P$ [day]")
     ax4.set_ylabel("$e$")
     plt.title(f"ID: {id_num}, K1%={K1st}")
-    fig4.savefig(f"{DATA_PATH}/PeriodvsEccent_MCMC_{mils}M_{id_num}_MWE") #saving figure to plots folder in script output  folder
+    fig4.savefig(f"{DATA_PATH}/PeriodvsEccent_MCMC_{mils}M_{id_num}_MWE.png") #saving figure to plots folder in script output  folder
     print("Period vs Eccentricity from MCMC plotted")
 plt.close('all')
