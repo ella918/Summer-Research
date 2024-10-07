@@ -27,7 +27,8 @@ print(dataRV["DATE-OBS"])
 
 id_num = 2128124963389008384
 mpi = True
-num_priors = 10000000
+num_priors = 50000000
+num_chains = 8
 
 t1 = Time(dataRV["DATE-OBS"], format = "isot", scale = "tcb")
 data = tj.RVData(t = t1, rv = dataRV['vrad']*(u.kilometer/u.second), rv_err = dataRV['vrad_err']*(u.kilometer/u.second)) 
@@ -42,7 +43,7 @@ prior = tj.JokerPrior.default( #initializing the default prior
     sigma_v = 100 * u.km / u.s,
 )
 prior_samples = prior.sample(size = num_priors, rng = rnd, return_logprobs=True)
-prior_samples.write(f'{DATA_PATH}/prior_samples_{mils}M_{id_num}_MWE.hdf5', overwrite = True)
+prior_samples.write(f'{DATA_PATH}/prior_samples_{mils}M_{id_num}_{num_chains}chains_MWE_.hdf5', overwrite = True)
 
 if mpi is True: #multiprocessing
     with schwimmbad.MultiPool() as pool:
@@ -60,7 +61,7 @@ else:
     joker = tj.TheJoker(prior, rng=rnd) #creating instance of The Joker
     joker_samples = joker.rejection_sample(data, prior_samples, max_posterior_samples=256, return_logprobs=True) #creating rejection samples 
 print('rejection sample created')
-joker_samples.write(f"{DATA_PATH}/rejection_samples_{mils}M_{id_num}_MWE.hdf5", overwrite = True) #writing out posterior samples (not MCMC)
+joker_samples.write(f"{DATA_PATH}/rejection_samples_{mils}M_{id_num}_{num_chains}chains_MWE.hdf5", overwrite = True) #writing out posterior samples (not MCMC)
 print('joker samples written out')
 print(len(joker_samples), 'samples')
 
@@ -69,18 +70,18 @@ if len(joker_samples) == 1:
     #MCMC with NUTS sampler 
     with prior.model:
         mcmc_init = joker.setup_mcmc(data, joker_samples)
-        trace = pm.sample(tune=500, draws=500, start=mcmc_init, chains=8)
+        trace = pm.sample(tune=500, draws=500, start=mcmc_init, chains=num_chains)
     mcmc_samples = tj.JokerSamples.from_inference_data(prior, trace, data) #convert trace into jokersamples
     az.summary(trace, var_names=prior.par_names)
     az.plot_trace(trace, var_names = prior.par_names)
-    plt.savefig(f'{DATA_PATH}/traceplot_{mils}M_{id_num}.png')
-    mcmc_samples.write(f'{DATA_PATH}/rejection_samples_MCMC_{mils}M_{id_num}_MWE.hdf5', overwrite = True) #write out MCMC posterior samples  
+    plt.savefig(f'{DATA_PATH}/traceplot_{mils}M_{id_num}_{num_chains}chains.png')
+    mcmc_samples.write(f'{DATA_PATH}/rejection_samples_MCMC_{mils}M_{id_num}_{num_chains}chains_MWE.hdf5', overwrite = True) #write out MCMC posterior samples  
 
 
 #PLOTTING THE DATA
 
 rvplotnoline = data.plot()
-plt.savefig(f"{DATA_PATH}/RVvTime_{mils}M_{id_num}_MWE.png")
+plt.savefig(f"{DATA_PATH}/RVvTime_{mils}M_{id_num}_{num_chains}chains_MWE.png")
 
 #getting the lnk value to put on title
 K = joker_samples['K']
@@ -89,7 +90,7 @@ fig1, ax1 = plt.subplots()
 
 _ = tj.plot_rv_curves(joker_samples, data=data) #plotting RV curves from rejection sampler
 plt.title(f"ID: {id_num}, K1%={K1st}")
-fig1.savefig(f"{DATA_PATH}/RVCurves_{mils}M_{id_num}_MWE.png") #saving figure to plots folder in script output folder
+fig1.savefig(f"{DATA_PATH}/RVCurves_{mils}M_{id_num}_{num_chains}chains_MWE.png") #saving figure to plots folder in script output folder
 print("RV curves plotted")
 
 #plotting period against eccentricity
@@ -103,7 +104,7 @@ ax2.set_xlabel("$P$ [day]")
 ax2.set_ylabel("$e$")
 plt.title(f"ID: {id_num}, K1%={K1st}")
 
-fig2.savefig(f"{DATA_PATH}/PeriodvsEccent_{mils}M_{id_num}_MWE.png") #saving figure to plots folder in script output  folder 
+fig2.savefig(f"{DATA_PATH}/PeriodvsEccent_{mils}M_{id_num}_{num_chains}chains_MWE.png") #saving figure to plots folder in script output  folder 
 print("Period vs Eccentricity plotted")
 
 if len(joker_samples) == 1: 
@@ -111,7 +112,7 @@ if len(joker_samples) == 1:
     fig3, ax3 = plt.subplots()
     _ = tj.plot_rv_curves(mcmc_samples, data=data) #plotting RV curves from MCMC rejection sampler
     plt.title(f"ID: {id_num}, K1%={K1st}")
-    fig3.savefig(f"{DATA_PATH}/RVCurves_MCMC_{mils}M_{id_num}_MWE.png") #saving figure to plots folder in script output  folder
+    fig3.savefig(f"{DATA_PATH}/RVCurves_MCMC_{mils}M_{id_num}_{num_chains}chains_MWE.png") #saving figure to plots folder in script output  folder
     print("RV curves from MCMC plotted")
 
     #plotting period vs eccentricity
@@ -124,6 +125,6 @@ if len(joker_samples) == 1:
     ax4.set_xlabel("$P$ [day]")
     ax4.set_ylabel("$e$")
     plt.title(f"ID: {id_num}, K1%={K1st}")
-    fig4.savefig(f"{DATA_PATH}/PeriodvsEccent_MCMC_{mils}M_{id_num}_MWE.png") #saving figure to plots folder in script output  folder
+    fig4.savefig(f"{DATA_PATH}/PeriodvsEccent_MCMC_{mils}M_{id_num}_{num_chains}chains_MWE.png") #saving figure to plots folder in script output  folder
     print("Period vs Eccentricity from MCMC plotted")
 plt.close('all')
