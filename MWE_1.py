@@ -41,6 +41,7 @@ prior = tj.JokerPrior.default( #initializing the default prior
     P_max = 1e3 * u.day,
     sigma_K0 = 30 * u.km / u.s,
     sigma_v = 100 * u.km / u.s,
+    s = 5 * u.km / u.s,
 )
 prior_samples = prior.sample(size = num_priors, rng = rnd, return_logprobs=True)
 prior_samples.write(f'{DATA_PATH}/prior_samples_{mils}M_{id_num}_{num_chains}chains_MWE_.hdf5', overwrite = True)
