@@ -59,19 +59,19 @@ def RunTheJokerOnePrior(id_num, mpi, num_priors):
         sigma_v = 100 * u.km / u.s,
     )
     #print(f'{workpath}prior_samples_50M.hdf5')
-    prior_samples = tj.JokerSamples.read(f'{workpath}prior_samples_100M.hdf5')
+    #prior_samples = tj.JokerSamples.read(f'{workpath}prior_samples_100M.hdf5')
 
     if mpi is True: #multiprocessing
         with schwimmbad.MultiPool() as pool:
             print("Multiprocessing")
-            try:
-                joker = tj.TheJoker(prior, rng=rnd, pool=pool)
-                joker_samples = joker.rejection_sample(data, prior_samples, max_posterior_samples=256, return_logprobs=True)
-                print("done sampling")
-            except:
-                print("failed")
-                raise
-                return
+            #try:
+            joker = tj.TheJoker(prior, rng=rnd, pool=pool)
+            joker_samples = joker.rejection_sample(data, f'{workpath}prior_samples_100M.hdf5', max_posterior_samples=256, return_logprobs=True)
+            print("done sampling")
+            # except:
+            #     print("failed")
+            #     raise
+            #     return
     else:
         pool = None
         joker = tj.TheJoker(prior, rng=rnd) #creating instance of The Joker
