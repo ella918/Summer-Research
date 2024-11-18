@@ -97,7 +97,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('id', help = 'star id', type = int)
     parser.add_argument('--mpi', help='False for no multiprocessing', type = bool, default = True)
-    parser.add_argument('--prior', help = 'num of prior samp default 100000000', type = int, default = 100000000)
+    parser.add_argument('--prior', help = 'num of prior samp default 150000000', type = int, default = 150000000)
     args = parser.parse_args()
     print('args')
 
