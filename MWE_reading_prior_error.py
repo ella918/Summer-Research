@@ -44,7 +44,7 @@ prior = tj.JokerPrior.default( #initializing the default prior
     sigma_v = 100 * u.km / u.s,
 )
 
-prior_samples = tj.JokerSamples.read(f'{workpath}prior_samples_50M.hdf5')
+prior_samples = tj.JokerSamples.read(f'{DATA_PATH}/50.0M/prior_samples_50M.hdf5')
 
 if mpi is True: #multiprocessing
     with schwimmbad.MultiPool() as pool:
