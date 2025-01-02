@@ -11,9 +11,9 @@ from astropy.visualization.units import quantity_support
 DATA_PATH = os.getenv("DATA_PATH", "/users/EllaMathews/Summer-Research") #environment variable 
 prior = 'DATA_PATH/TheJoker_Outputs/2128128296283380480/prior_samples_10.0M_2128128296283380480.hdf5'
 rejectionsamples = 'DATA_PATH/TheJoker_Outputs/2128128296283380480/rejection_samples_2128128296283380480.hdf5'
-new_6866 = QTable.read('/data2/labs/douglste-laf-lab/mathewea/rcat_ngc6866_v0.fits')
-new_6811 = QTable.read('/data2/labs/douglste-laf-lab/mathewea/rcat_ngc6811_v0.fits')
-id_list = Table.read('/data2/labs/douglste-laf-lab/mathewea/Summer-Research/GAIADR3_IDs.csv')
+new_6866 = QTable.read('/data/labs/douglste-laf-lab/mathewea/rcat_ngc6866_v0.fits')
+new_6811 = QTable.read('/data/labs/douglste-laf-lab/mathewea/rcat_ngc6811_v0.fits')
+id_list = Table.read('/data/labs/douglste-laf-lab/mathewea/Summer-Research/GAIADR3_IDs.csv')
 
 id_num = 2128128296283380480
 new_ids_6811 = new_6811['GAIAEDR3_ID']
@@ -26,7 +26,8 @@ data = tj.RVData(t = t1, rv = matched['vrad']*(u.kilometer/u.second), rv_err = m
 
 fig1,ax1 = plt.subplots()
 _ = data.plot()
-fig1.savefig("RV_pres.png")
+ax1.title("Inital RV Data")
+fig1.savefig("RV_AAS.png")
 print('RV data plotted')
 
 fig2,ax2 = plt.subplots()
@@ -38,7 +39,7 @@ with quantity_support():
     ax2.set_xlabel("$P$ [day]")
     ax2.set_ylabel("$e$")
     plt.title("10 Million Prior Samples")
-fig2.savefig('Prior_pres.png')
+fig2.savefig('Prior_AAS.png')
 print('Prior Plotted')
 
 
@@ -51,8 +52,14 @@ with quantity_support():
     ax3.set_xlabel("$P$ [day]")
     ax3.set_ylabel("$e$")
     plt.title("Rejection Samples")
-fig3.savefig('rejectionsamples_pres.png')
+fig3.savefig('rejectionsamples_AAS.png')
 print('rejection samples Plotted')
+
+fig4, ax4 = plt.subplots()
+_ = tj.plot_rv_curves(rejectionsamples, data=data) 
+ax4.title("Possible Orbits")
+fig1.savefig('rvcurve_AAS.png') 
+print("RV curves after rejection plotted")
 
 
 
