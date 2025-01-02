@@ -35,14 +35,13 @@ ax1.set_title("Inital RV Data")
 print('RV data plotted')
 
 ax2 = axes[1,0]
-with quantity_support():
-    ax2.scatter(prior["P"], prior["e"], s=20, lw=0, alpha=0.5)
-    ax2.set_xscale("log")
-    ax2.set_xlim(1, 1e3)
-    ax2.set_ylim(0, 1)
-    ax2.set_xlabel("$P$ [day]")
-    ax2.set_ylabel("$e$")
-    ax2.set_title("10 Million Prior Samples")
+ax2.scatter(prior["P"], prior["e"], s=20, lw=0, alpha=0.5)
+ax2.set_xscale("log")
+ax2.set_xlim(1, 1e3)
+ax2.set_ylim(0, 1)
+ax2.set_xlabel("$P$ [day]")
+ax2.set_ylabel("$e$")
+ax2.set_title("10 Million Prior Samples")
 print('Prior Plotted')
 
 
