@@ -50,31 +50,31 @@ def circ_function(Porb,Pcirc,alpha=0.35,beta=0.14,gamma=1.0):
     
     return eccentricities
 
-m35 = at.read("/home/stephanie/data/catalogs/M35_orbits_meibommathieu2005.csv")
+# m35 = at.read("/home/stephanie/data/catalogs/M35_orbits_meibommathieu2005.csv")
 
-import emcee
-emcee.__version__
+# import emcee
+# emcee.__version__
 
-def lnlike(Pcirc,Porb,obs_ecc,obs_err):
-    mod_ecc = circ_function(Porb,Pcirc)
+# def lnlike(Pcirc,Porb,obs_ecc,obs_err):
+#     mod_ecc = circ_function(Porb,Pcirc)
     
-    sigma2 = obs_err**2 + mod_ecc**2
-    inv_sigma2 = 1 / sigma2
-    return -0.5*np.sum((obs_ecc - mod_ecc)**2 * inv_sigma2
-                      - np.log(inv_sigma2))
-def lnprior(Pcirc):
-    if Pcirc>=0.01 and Pcirc<50:
-        return 0.0
-    else:
-        return -np.inf
+#     sigma2 = obs_err**2 + mod_ecc**2
+#     inv_sigma2 = 1 / sigma2
+#     return -0.5*np.sum((obs_ecc - mod_ecc)**2 * inv_sigma2
+#                       - np.log(inv_sigma2))
+# def lnprior(Pcirc):
+#     if Pcirc>=0.01 and Pcirc<50:
+#         return 0.0
+#     else:
+#         return -np.inf
 
-def lnprob(Pcirc,Porb,obs_ecc,obs_err):
+# def lnprob(Pcirc,Porb,obs_ecc,obs_err):
     
-    lp = lnprior(Pcirc)
-    if not np.isfinite(lp):
-        return - np.inf
-    else:
-        return lp + lnlike(Pcirc,Porb,obs_ecc,obs_err)
+#     lp = lnprior(Pcirc)
+#     if not np.isfinite(lp):
+#         return - np.inf
+#     else:
+#         return lp + lnlike(Pcirc,Porb,obs_ecc,obs_err)
 
 plt.figure()
 ax = plt.subplot(111)
