@@ -1,10 +1,3 @@
-from __future__ import division, print_function, absolute_import
-
-#matplotlib inline
-import matplotlib.pyplot as plt
-import numpy as np
-import astropy.io.ascii as at
-import astropy.units as u
 import astropy.table as astropy
 import astropy.units as u
 import matplotlib.pyplot as plt 
@@ -16,10 +9,13 @@ from astropy.time import Time
 from astropy.visualization.units import quantity_support 
 import os 
 
+from __future__ import division, print_function, absolute_import
 
-workpath2 = '/data2/labs/douglste-laf-lab/mathewea/50.0M'
-unimodal_table2 = Table.read('/data2/labs/douglste-laf-lab/mathewea/Summer-Research/unimodalcheck_rerun.csv')
-
+#matplotlib inline
+import matplotlib.pyplot as plt
+import numpy as np
+import astropy.io.ascii as at
+import astropy.units as u
 
 def circ_function(Porb,Pcirc,alpha=0.35,beta=0.14,gamma=1.0):
     """
@@ -49,38 +45,15 @@ def circ_function(Porb,Pcirc,alpha=0.35,beta=0.14,gamma=1.0):
     eccentricities[gtr_pc] = alpha * (1 - cf_part)**gamma
     
     return eccentricities
+
 ptest = np.logspace(0,3,100)
 etest = circ_function(ptest,10.2)
-# m35 = at.read("/home/stephanie/data/catalogs/M35_orbits_meibommathieu2005.csv")
 
-# import emcee
-# emcee.__version__
 
-# def lnlike(Pcirc,Porb,obs_ecc,obs_err):
-#     mod_ecc = circ_function(Porb,Pcirc)
-    
-#     sigma2 = obs_err**2 + mod_ecc**2
-#     inv_sigma2 = 1 / sigma2
-#     return -0.5*np.sum((obs_ecc - mod_ecc)**2 * inv_sigma2
-#                       - np.log(inv_sigma2))
-# def lnprior(Pcirc):
-#     if Pcirc>=0.01 and Pcirc<50:
-#         return 0.0
-#     else:
-#         return -np.inf
 
-# def lnprob(Pcirc,Porb,obs_ecc,obs_err):
-    
-#     lp = lnprior(Pcirc)
-#     if not np.isfinite(lp):
-#         return - np.inf
-#     else:
-#         return lp + lnlike(Pcirc,Porb,obs_ecc,obs_err)
 
-plt.figure()
-ax = plt.subplot(111)
-plt.plot(np.log10(ptest),etest)
-
+workpath2 = '/data2/labs/douglste-laf-lab/mathewea/50.0M'
+unimodal_table2 = Table.read('/data2/labs/douglste-laf-lab/mathewea/Summer-Research/unimodalcheck_rerun.csv')
 
 data_for_plots = QTable()
 ids = []
@@ -144,7 +117,9 @@ data_for_plots.write('data_for_unimodal_plots_reran.csv', format = 'csv', overwr
 print('made table')
 
 
-#plotting e vs P plot with uncertainties 
+plt.figure()
+ax = plt.subplot(111)
+plt.plot(ptest,etest, 'r')
 x = np.array(data_for_plots['P_median'])
 y = np.array(data_for_plots['e_median'])
 asymmetric_error_x = np.array([np.array(data_for_plots['P_lower']), np.array(data_for_plots['P_upper'])])
@@ -157,4 +132,6 @@ ax.set_xscale('log')
 ax.set_ylabel('e')
 ax.set_title('e vs P for Unimodal Stars in NGC6811 and NGC6866')
 plt.show()
-plt.savefig('Unimodal_Plots_AAS.png')
+plt.savefig('Unimodal_Plots_reran_AAS.png')
+print('made plot')
+
