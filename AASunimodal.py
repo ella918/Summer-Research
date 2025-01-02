@@ -1,3 +1,4 @@
+from __future__ import division, print_function, absolute_import
 import astropy.table as astropy
 import astropy.units as u
 import matplotlib.pyplot as plt 
@@ -9,7 +10,6 @@ from astropy.time import Time
 from astropy.visualization.units import quantity_support 
 import os 
 
-from __future__ import division, print_function, absolute_import
 
 #matplotlib inline
 import matplotlib.pyplot as plt
