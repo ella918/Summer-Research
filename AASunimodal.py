@@ -1,6 +1,6 @@
 from __future__ import division, print_function, absolute_import
 
-%matplotlib inline
+#matplotlib inline
 import matplotlib.pyplot as plt
 import numpy as np
 import astropy.io.ascii as at
