@@ -27,8 +27,8 @@ data = tj.RVData(t = t1, rv = matched['vrad']*(u.kilometer/u.second), rv_err = m
 
 plt.rcParams.update({'font.size': 12})
 
-plt.xlabel(fontsize=14)
-plt.ylabel(fontsize=14)
+plt.xlabel('',fontsize=14)
+plt.ylabel('',fontsize=14)
 
 # Set tick labels font size
 plt.xticks(fontsize=12)
