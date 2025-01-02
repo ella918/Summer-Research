@@ -31,7 +31,7 @@ fig, axes = plt.subplots(nrows = 2, ncols = 2, width_ratios = [1, 1.25])
 
 ax1 = axes[0,0]
 _ = data.plot()
-ax1.title("Inital RV Data")
+ax1.set_title("Inital RV Data")
 print('RV data plotted')
 
 ax2 = axes[1,0]
@@ -42,7 +42,7 @@ with quantity_support():
     ax2.set_ylim(0, 1)
     ax2.set_xlabel("$P$ [day]")
     ax2.set_ylabel("$e$")
-    plt.title("10 Million Prior Samples")
+    ax2.set_title("10 Million Prior Samples")
 print('Prior Plotted')
 
 
@@ -54,12 +54,12 @@ with quantity_support():
     ax3.set_ylim(0, 1)
     ax3.set_xlabel("$P$ [day]")
     ax3.set_ylabel("$e$")
-    plt.title("Rejection Samples")
+    ax3.set_title("Rejection Samples")
 print('rejection samples Plotted')
 
 ax4 = axes[1,1]
 _ = tj.plot_rv_curves(rejectionsamples, data=data) 
-ax4.title("Possible Orbits")
+ax4.set_title("Possible Orbits")
 print("RV curves after rejection plotted")
 
 fig.savefig('plots_AAS.png')
