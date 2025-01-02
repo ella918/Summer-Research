@@ -34,7 +34,7 @@ _ = data.plot()
 ax1.set_title("Inital RV Data")
 print('RV data plotted')
 
-ax2 = axes[1,0]
+ax2 = axes[0,1]
 ax2.scatter(prior["P"], prior["e"], s=20, lw=0, alpha=0.5)
 ax2.set_xscale("log")
 ax2.set_xlim(1, 1e3)
@@ -45,7 +45,7 @@ ax2.set_title("10 Million Prior Samples")
 print('Prior Plotted')
 
 
-ax3 = axes[0,1]
+ax3 = axes[1,1]
 with quantity_support():
     ax3.scatter(rejectionsamples["P"], rejectionsamples["e"], s=20, lw=0, alpha=0.5)
     ax3.set_xscale("log")
@@ -56,11 +56,12 @@ with quantity_support():
     ax3.set_title("Rejection Samples")
 print('rejection samples Plotted')
 
-ax4 = axes[1,1]
+ax4 = axes[1,0]
 _ = tj.plot_rv_curves(rejectionsamples, data=data) 
 ax4.set_title("Possible Orbits")
 print("RV curves after rejection plotted")
 
+plt.subplots_adjust(hspace = .1, wspace = .105)
 fig.savefig('plots_AAS.png')
 
 
