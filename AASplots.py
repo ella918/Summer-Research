@@ -16,8 +16,6 @@ new_6866 = QTable.read('/data2/labs/douglste-laf-lab/mathewea/rcat_ngc6866_v0.fi
 new_6811 = QTable.read('/data2/labs/douglste-laf-lab/mathewea/rcat_ngc6811_v0.fits')
 id_list = Table.read('/data2/labs/douglste-laf-lab/mathewea/Summer-Research/GAIADR3_IDs.csv')
 
-print(prior.dtype)
-
 id_num = 2128128296283380480
 new_ids_6811 = new_6811['GAIAEDR3_ID']
 new_ids_6866 = new_6866['GAIAEDR3_ID']
