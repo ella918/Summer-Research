@@ -25,13 +25,16 @@ matched = vstack([datamatched6811, datamatched6866])
 t1 = Time(matched["DATE-OBS"], format = "fits", scale = "tcb")
 data = tj.RVData(t = t1, rv = matched['vrad']*(u.kilometer/u.second), rv_err = matched['vrad_err']*(u.kilometer/u.second)) 
 
-fig1,ax1 = plt.subplots()
+
+fig, axes = plt.subplots(nrows = 2, ncols = 2, width_ratios = [1, 1.25])
+
+
+ax1 = axes[0,0]
 _ = data.plot()
 ax1.title("Inital RV Data")
-fig1.savefig("RV_AAS.png")
 print('RV data plotted')
 
-fig2,ax2 = plt.subplots()
+ax2 = axes[1,0]
 with quantity_support():
     ax2.scatter(prior["P"], prior["e"], s=20, lw=0, alpha=0.5)
     ax2.set_xscale("log")
@@ -40,11 +43,10 @@ with quantity_support():
     ax2.set_xlabel("$P$ [day]")
     ax2.set_ylabel("$e$")
     plt.title("10 Million Prior Samples")
-fig2.savefig('Prior_AAS.png')
 print('Prior Plotted')
 
 
-fig3, ax3 = plt.subplots()
+ax3 = axes[0,1]
 with quantity_support():
     ax3.scatter(rejectionsamples["P"], rejectionsamples["e"], s=20, lw=0, alpha=0.5)
     ax3.set_xscale("log")
@@ -53,14 +55,14 @@ with quantity_support():
     ax3.set_xlabel("$P$ [day]")
     ax3.set_ylabel("$e$")
     plt.title("Rejection Samples")
-fig3.savefig('rejectionsamples_AAS.png')
 print('rejection samples Plotted')
 
-fig4, ax4 = plt.subplots()
+ax4 = axes[1,1]
 _ = tj.plot_rv_curves(rejectionsamples, data=data) 
 ax4.title("Possible Orbits")
-fig1.savefig('rvcurve_AAS.png') 
 print("RV curves after rejection plotted")
+
+fig.savefig('plots_AAS.png')
 
 
 
