@@ -49,7 +49,8 @@ def circ_function(Porb,Pcirc,alpha=0.35,beta=0.14,gamma=1.0):
     eccentricities[gtr_pc] = alpha * (1 - cf_part)**gamma
     
     return eccentricities
-
+ptest = np.logspace(0,3,100)
+etest = circ_function(ptest,10.2)
 # m35 = at.read("/home/stephanie/data/catalogs/M35_orbits_meibommathieu2005.csv")
 
 # import emcee
