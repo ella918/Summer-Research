@@ -27,7 +27,6 @@ data = tj.RVData(t = t1, rv = matched['vrad']*(u.kilometer/u.second), rv_err = m
 
 
 fig1, ax1 =plt.subplots()
-ax1 = axes[0,0]
 _ = data.plot()
 ax1.set_title("Inital RV Data")
 fig1.savefig('initialRV_AAS.png')
