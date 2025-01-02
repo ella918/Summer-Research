@@ -61,7 +61,7 @@ _ = tj.plot_rv_curves(rejectionsamples, data=data)
 ax4.set_title("Possible Orbits")
 print("RV curves after rejection plotted")
 
-plt.subplots_adjust(hspace = .1, wspace = .105)
+plt.subplots_adjust(hspace = 2, wspace = 2)
 fig.savefig('plots_AAS.png')
 
 
