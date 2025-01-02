@@ -10,8 +10,8 @@ from astropy.visualization.units import quantity_support
 import os
 
 DATA_PATH = os.getenv("DATA_PATH", "/users/EllaMathews/Summer-Research") #environment variable 
-prior = '/data2/labs/douglste-laf-lab/mathewea/TheJoker_Outputs/2128128296283380480/prior_samples_10.0M_2128128296283380480.hdf5'
-rejectionsamples = '/data2/labs/douglste-laf-lab/mathewea/TheJoker_Outputs/2128128296283380480/rejection_samples_2128128296283380480.hdf5'
+prior = 'DATA_PATH/mathewea/TheJoker_Outputs/2128128296283380480/prior_samples_10.0M_2128128296283380480.hdf5'
+rejectionsamples = 'DATA_PATH/TheJoker_Outputs/2128128296283380480/rejection_samples_2128128296283380480.hdf5'
 new_6866 = QTable.read('/data2/labs/douglste-laf-lab/mathewea/rcat_ngc6866_v0.fits')
 new_6811 = QTable.read('/data2/labs/douglste-laf-lab/mathewea/rcat_ngc6811_v0.fits')
 id_list = Table.read('/data2/labs/douglste-laf-lab/mathewea/Summer-Research/GAIADR3_IDs.csv')
