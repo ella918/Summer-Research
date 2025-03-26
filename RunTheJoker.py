@@ -121,7 +121,7 @@ def RunTheJoker(id_num, mpi, num_priors):
         #MCMC with NUTS sampler 
         with prior.model:
             mcmc_init = joker.setup_mcmc(data, joker_samples)
-            trace = pm.sample(tune=500, draws=500, start=mcmc_init, chains=2)
+            trace = pm.sample(tune=500, draws=500, start=mcmc_init, chains=num_chains, init='adapt_full')
         mcmc_samples = tj.JokerSamples.from_inference_data(prior, trace, data) #convert trace into jokersamples
         mcmc_samples.write(f'{workpath}/{mils}M/{id_num}/rejection_samples_MCMC_{mils}M_{id_num}.hdf5', overwrite = True) #write out MCMC posterior samples 
         
@@ -148,7 +148,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('id', help = 'star id', type = int)
     parser.add_argument('--mpi', help='False for no multiprocessing', type = bool, default = True)
-    parser.add_argument('--prior', help = 'num of prior samp default 50000000', type = int, default = 50000000)
+    parser.add_argument('--prior', help = 'num of prior samp default 100000000', type = int, default = 100000000)
     args = parser.parse_args()
     print('args')
     RunTheJoker(args.id, args.mpi, args.prior)

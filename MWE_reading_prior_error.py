@@ -27,8 +27,8 @@ print(dataRV["DATE-OBS"])
 
 id_num = 2128124963389008384
 mpi = True
-num_priors = 50000000
-num_chains = 8
+num_priors = 200000000
+num_chains = 15
 
 
 t1 = Time(dataRV["DATE-OBS"], format = "isot", scale = "tcb")
@@ -44,12 +44,13 @@ prior = tj.JokerPrior.default( #initializing the default prior
     sigma_v = 100 * u.km / u.s,
 )
 
-prior_samples = tj.JokerSamples.read(f'{DATA_PATH}/50.0M/prior_samples_50M.hdf5')
+prior_samples = tj.JokerSamples.read(f'{DATA_PATH}/200.0M/prior_samples_200M.hdf5')
 
 with schwimmbad.MultiPool() as pool:
     print("Multiprocessing")
     joker = tj.TheJoker(prior, rng=rnd, pool=pool)
     joker_samples = joker.rejection_sample(data, prior_samples, max_posterior_samples=256, return_logprobs=True)
+    print(joker_samples)
     print("done sampling")
     
 print('rejection sample created')
@@ -57,17 +58,18 @@ joker_samples.write(f"{DATA_PATH}/rejection_samples_{mils}M_{id_num}_{num_chains
 print('joker samples written out')
 print(len(joker_samples), 'samples')
 
-# if len(joker_samples) == 1: 
-#     print("1 sample, needs MCMC")#if only one sample need MCMC
-#     #MCMC with NUTS sampler 
-#     with prior.model:
-#         mcmc_init = joker.setup_mcmc(data, joker_samples)
-#         trace = pm.sample(tune=500, draws=500, start=mcmc_init, chains=num_chains)
-#     mcmc_samples = tj.JokerSamples.from_inference_data(prior, trace, data) #convert trace into jokersamples
-#     az.summary(trace, var_names=prior.par_names)
-#     az.plot_trace(trace, var_names = prior.par_names)
-#     plt.savefig(f'{DATA_PATH}/traceplot_{mils}M_{id_num}_{num_chains}chains.png')
-#     mcmc_samples.write(f'{DATA_PATH}/rejection_samples_MCMC_{mils}M_{id_num}_{num_chains}chains_MWE_2.hdf5', overwrite = True) #write out MCMC posterior samples  
+if len(joker_samples) == 1: 
+    print("1 sample, needs MCMC")#if only one sample need MCMC
+    #MCMC with NUTS sampler 
+    with prior.model:
+        mcmc_init = joker.setup_mcmc(data, joker_samples)
+        print(data)
+        trace = pm.sample(tune=500, draws=500, start=mcmc_init, chains=num_chains)
+    mcmc_samples = tj.JokerSamples.from_inference_data(prior, trace, data) #convert trace into jokersamples
+    az.summary(trace, var_names=prior.par_names)
+    az.plot_trace(trace, var_names = prior.par_names)
+    plt.savefig(f'{DATA_PATH}/traceplot_{mils}M_{id_num}_{num_chains}chains-3-10.png')
+    mcmc_samples.write(f'{DATA_PATH}/rejection_samples_MCMC_{mils}M_{id_num}_{num_chains}chains_MWE_3-10.hdf5', overwrite = True) #write out MCMC posterior samples  
 
 
 # #PLOTTING THE DATA

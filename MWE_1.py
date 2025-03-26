@@ -28,7 +28,7 @@ print(dataRV["DATE-OBS"])
 id_num = 2128124963389008384
 mpi = True
 num_priors = 50000000
-num_chains = 8
+num_chains = 12
 
 t1 = Time(dataRV["DATE-OBS"], format = "isot", scale = "tcb")
 data = tj.RVData(t = t1, rv = dataRV['vrad']*(u.kilometer/u.second), rv_err = dataRV['vrad_err']*5*(u.kilometer/u.second)) 
@@ -71,7 +71,7 @@ if len(joker_samples) == 1:
     #MCMC with NUTS sampler 
     with prior.model:
         mcmc_init = joker.setup_mcmc(data, joker_samples)
-        trace = pm.sample(tune=500, draws=500, start=mcmc_init, chains=num_chains)
+        trace = pm.sample(tune=500, draws=500, start=mcmc_init, chains=num_chains, init='adapt_full')
     mcmc_samples = tj.JokerSamples.from_inference_data(prior, trace, data) #convert trace into jokersamples
     az.summary(trace, var_names=prior.par_names)
     az.plot_trace(trace, var_names = prior.par_names)
