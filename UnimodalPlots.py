@@ -9,10 +9,8 @@ from astropy.time import Time
 from astropy.visualization.units import quantity_support 
 import os 
 
-# workpath = '/data2/labs/douglste-laf-lab/mathewea/TheJoker_Outputs' #might have to change this 
-workpath = '/data2/labs/douglste-laf-lab/mathewea/50.0M'
-#unimodal_table = Table.read('/data2/labs/douglste-laf-lab/mathewea/Summer-Research/unimodalcheck.csv')
-unimodal_table = Table.read('/data2/labs/douglste-laf-lab/mathewea/Summer-Research/unimodalcheck_rerun.csv')
+workpath = '/data2/labs/douglste-laf-lab/mathewea/200.0M'
+unimodal_table = Table.read('/data2/labs/douglste-laf-lab/mathewea/Summer-Research/unimodalcheck_200M.csv')
 
 data_for_plots = QTable()
 ids = []
@@ -23,17 +21,16 @@ e_median = []
 e_lower = []
 e_upper = []
 MCMC = []
-#MAP = []
 
 for i in range(len(unimodal_table)):
 	if unimodal_table['unimodal'][i] == 1:
 		idnum = unimodal_table['id'][i]
 		ids.append(idnum)
 		if unimodal_table['MCMC'][i] == 0:
-			joker_samples = tj.JokerSamples.read(f'{workpath}/{idnum}/rejection_samples_50.0M_{idnum}.hdf5')
+			joker_samples = tj.JokerSamples.read(f'{workpath}/{idnum}/rejection_samples_200.0M_{idnum}.hdf5')
 			MCMC.append(0)
 		if unimodal_table['MCMC'][i] == 1:
-			joker_samples = tj.JokerSamples.read(f'{workpath}/{idnum}/rejection_samples_MCMC_50.0M_{idnum}.hdf5')
+			joker_samples = tj.JokerSamples.read(f'{workpath}/{idnum}/rejection_samples_MCMC_200.0M_{idnum}.hdf5')
 			MCMC.append(1)
 
 		p_median = np.percentile(joker_samples['P'], 50)
@@ -69,9 +66,8 @@ data_for_plots['P_upper'] = P_upper
 data_for_plots['e_median'] = e_median
 data_for_plots['e_lower'] = e_lower
 data_for_plots['e_upper'] = e_upper 
-#data_for_plots['MAP'] = MAP 
 
-data_for_plots.write('data_for_unimodal_plots_rerun.csv', format = 'csv', overwrite = True)
+data_for_plots.write('data_for_unimodal_plots_200M.csv', format = 'csv', overwrite = True)
 print('made table')
 
 
@@ -89,7 +85,7 @@ ax.set_xscale('log')
 ax.set_ylabel('e')
 ax.set_title('e vs P for Unimodal Stars in ngc6811 and ngc6866')
 plt.show()
-plt.savefig('Unimodal_Plots')
+plt.savefig('Unimodal_Plot_200M')
 print('made plot')
 
 for i in range(len(data_for_plots)):
