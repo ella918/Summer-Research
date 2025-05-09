@@ -59,14 +59,14 @@ def RunTheJokerOnePrior(id_num, mpi, num_priors):
         sigma_v = 100 * u.km / u.s,
     )
     #print(f'{workpath}prior_samples_50M.hdf5')
-    prior_samples = tj.JokerSamples.read(f'{workpath}prior_samples_250M.hdf5')
+    prior_samples = tj.JokerSamples.read(f'{workpath}prior_samples_200M_new.hdf5')
 
     if mpi is True: #multiprocessing
         with schwimmbad.MultiPool() as pool:
             print("Multiprocessing")
             #try:
             joker = tj.TheJoker(prior, rng=rnd, pool=pool)
-            joker_samples = joker.rejection_sample(data, f'{workpath}prior_samples_250M.hdf5', max_posterior_samples=256, return_logprobs=True)
+            joker_samples = joker.rejection_sample(data, f'{workpath}prior_samples_200M_new.hdf5', max_posterior_samples=256, return_logprobs=True)
             print("done sampling")
             # except:
             #     print("failed")
@@ -77,7 +77,7 @@ def RunTheJokerOnePrior(id_num, mpi, num_priors):
         joker = tj.TheJoker(prior, rng=rnd) #creating instance of The Joker
         joker_samples = joker.rejection_sample(data, prior_samples, max_posterior_samples=256, return_logprobs=True) #creating rejection samples 
     print('rejection sample created')
-    joker_samples.write(f"{workpath}{id_num}/rejection_samples_{mils}M_{id_num}.hdf5", overwrite = True) #writing out posterior samples (not MCMC)
+    joker_samples.write(f"{workpath}{id_num}/rejection_samples_{mils}M_{id_num}_new.hdf5", overwrite = True) #writing out posterior samples (not MCMC)
     print('joker samples written out')
     print(len(joker_samples), 'samples')
 
@@ -89,7 +89,7 @@ def RunTheJokerOnePrior(id_num, mpi, num_priors):
             mcmc_init = joker.setup_mcmc(data, joker_samples)
             trace = pm.sample(tune=500, draws=500, start=mcmc_init, chains=2, init='adapt_full')
         mcmc_samples = tj.JokerSamples.from_inference_data(prior, trace, data) #convert trace into jokersamples
-        mcmc_samples.write(f'{workpath}{id_num}/rejection_samples_MCMC_{mils}M_{id_num}.hdf5', overwrite = True) #write out MCMC posterior samples 
+        mcmc_samples.write(f'{workpath}{id_num}/rejection_samples_MCMC_{mils}M_{id_num}_new.hdf5', overwrite = True) #write out MCMC posterior samples 
     return 
 
 
@@ -97,7 +97,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('id', help = 'star id', type = int)
     parser.add_argument('--mpi', help='False for no multiprocessing', type = bool, default = True)
-    parser.add_argument('--prior', help = 'num of prior samp default 250000000', type = int, default = 250000000)
+    parser.add_argument('--prior', help = 'num of prior samp default 200000000', type = int, default = 200000000)
     args = parser.parse_args()
     print('args')
 
